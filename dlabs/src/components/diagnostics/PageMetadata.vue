@@ -1,7 +1,7 @@
 <template>
   <!-- Page Brudcrumb -->
   <div class="row">
-    <div class="col-lg-12 page-breadcrumb">
+    <div class="col-lg-12 page-metadata">
       <nav>
         <ul>
           <li class="active">
@@ -35,9 +35,9 @@ export default {
 <style lang="scss" scoped>
 @import "@/assets/scss/globals.scss";
 
-.page-breadcrumb {
+.page-metadata {
   text-align: left;
-  padding-top: 10px;
+  padding-top: 30px;
   padding-bottom: 10px;
   ul {
     margin: 0;

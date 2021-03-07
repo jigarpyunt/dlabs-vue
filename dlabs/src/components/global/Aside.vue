@@ -56,6 +56,18 @@
               </a>
               <span class="tool-tip" v-if="tooltip.b2b">B2B</span>
             </li>
+            <li @mouseover="ShowTooltip('offers')" @mouseleave="RemoveTooltip()">
+              <a href="javascript:void(0)">
+                <img src="@/assets/icons/offers.svg" alt="#" />
+              </a>
+              <span class="tool-tip" v-if="tooltip.offers">Offers</span>
+            </li>
+            <li @mouseover="ShowTooltip('sales')" @mouseleave="RemoveTooltip()">
+              <a href="javascript:void(0)">
+                <img src="@/assets/icons/sales.svg" alt="#" />
+              </a>
+              <span class="tool-tip" v-if="tooltip.sales">Sales</span>
+            </li>
             <li
               @mouseover="ShowTooltip('settings')"
               @mouseleave="RemoveTooltip()"
@@ -84,6 +96,8 @@ export default {
         tests: false,
         labs: false,
         b2b: false,
+        offers: false,
+        sales: false,
         settings: false,
       },
     };
@@ -136,7 +150,7 @@ aside {
     }
   }
   .nav-container {
-    margin-top: 40px;
+    margin-top: 25px;
 
     ul {
       margin: 0;
@@ -147,13 +161,13 @@ aside {
       li {
         list-style: none;
         background: rgba(0, 0, 0, 0.26);
-        width: 53px;
-        height: 53px;
-        border-radius: 53px;
+        width: 45px;
+        height: 45px;
+        border-radius: 45px;
         display: flex;
         align-items: center;
         justify-content: center;
-        margin-bottom: 10px;
+        margin-bottom: 20px;
         cursor: pointer;
         position: relative;
 

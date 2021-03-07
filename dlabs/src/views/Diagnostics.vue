@@ -2,40 +2,37 @@
 <div>
    <Aside/>
    <Header/>
-   <section class="page-content">
-       <div class="container-fluid">
-            <Breadcrumb />
-       </div>
-
-   </section>
+   <PageContent>
+       <template v-slot:header>
+        <Breadcrumb />
+       </template>
+       <template v-slot:main>
+           <PageMetadata />
+        </template>     
+       <template v-slot:footer></template>      
+   </PageContent>
+  
 </div>
 </template>
 <script>
 import Aside from "@/components/global/Aside";
 import Header from '@/components/global/Header.vue';
-import Breadcrumb from "@/components/diagnostics/Breadcrumb";
+import PageContent from "@/components/global/PageContent";
+import Breadcrumb from "@/components/global/Breadcrumb";
+import PageMetadata from "@/components/diagnostics/PageMetadata";
 
 export default {
     name : "Dashboard",
     components: {
         Aside,
         Header,
-        Breadcrumb
+        PageMetadata,
+        Breadcrumb,
+        PageContent
     }
 }
 </script>
 <style lang="scss">
-@import "@/assets/scss/globals.scss";
 
-section.page-content {
-    width: 94.6%;
-    height: 100%;
-    position: fixed;
-    left: 91px;
-    top: 80px;
-    background: #fff;
-    overflow-y: scroll;
-    padding: 30px 100px 30px 100px;
-}
 </style>
 
