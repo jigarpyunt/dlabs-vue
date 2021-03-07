@@ -1,0 +1,142 @@
+
+// Exo2
+@font-face {
+    font-family: "Exo 2";
+    src: local("Exo 2"),
+     url('~@/assets/fonts/exo2/Exo2-Bold.ttf') format("truetype");
+}
+@font-face {
+    font-family: "Exo 2";
+    src: local("Exo 2"),
+     url('~@/assets/fonts/exo2/Exo2-Regular.ttf') format("truetype");
+}
+
+// Roboto
+@font-face {
+    font-family: "Roboto";
+    src: local("Roboto"),
+     url('~@/assets/fonts/roboto/Roboto-Black.ttf') format("ttf");
+}
+@font-face {
+    font-family: "Roboto";
+    src: local("Roboto"),
+     url('~@/assets/fonts/roboto/Roboto-BlackItalic.ttf') format("ttf");
+}
+@font-face {
+    font-family: "Roboto";
+    src: local("Roboto"),
+     url('~@/assets/fonts/roboto/Roboto-Bold.ttf') format("ttf");
+}
+@font-face {
+    font-family: "Roboto";
+    src: local("Roboto"),
+     url('~@/assets/fonts/roboto/Roboto-BoldItalic.ttf') format("ttf");
+}
+@font-face {
+    font-family: "Roboto";
+    src: local("Roboto"),
+     url('~@/assets/fonts/roboto/Roboto-Italic.ttf') format("ttf");
+}
+@font-face {
+    font-family: "Roboto";
+    src: local("Roboto"),
+     url('~@/assets/fonts/roboto/Roboto-Light.ttf') format("ttf");
+}
+@font-face {
+    font-family: "Roboto";
+    src: local("Roboto"),
+     url('~@/assets/fonts/roboto/Roboto-LightItalic.ttf') format("ttf");
+}
+@font-face {
+    font-family: "Roboto";
+    src: local("Roboto"),
+     url('~@/assets/fonts/roboto/Roboto-Medium.ttf') format("ttf");
+}
+@font-face {
+    font-family: "Roboto";
+    src: local("Roboto"),
+     url('~@/assets/fonts/roboto/Roboto-MediumItalic.ttf') format("ttf");
+}
+@font-face {
+    font-family: "Roboto";
+    src: local("Roboto"),
+     url('~@/assets/fonts/roboto/Roboto-Regular.ttf') format("ttf");
+}
+@font-face {
+    font-family: "Roboto";
+    src: local("Roboto"),
+     url('~@/assets/fonts/roboto/Roboto-Thin.ttf') format("ttf");
+}
+@font-face {
+    font-family: "Roboto";
+    src: local("Roboto"),
+     url('~@/assets/fonts/roboto/Roboto-ThinItalic.ttf') format("ttf");
+}
+
+// Proxima-Nova
+@font-face {
+    font-family: "Proxima Nova";
+    src: local("Proxima Nova"),
+     url('~@/assets/fonts/proxima-nova/proxima-nova-bold.woff') format("woff");
+}
+@font-face {
+    font-family: "Proxima Nova";
+    src: local("Proxima Nova"),
+    url('~@/assets/fonts/proxima-nova/proxima-nova-regular.woff') format("woff");
+}
+@font-face {
+    font-family: "Proxima Nova";
+    src: local("Proxima Nova"),
+    url('~@/assets/fonts/proxima-nova/proxima-nova-semibold.woff') format("woff");
+}
+@font-face {
+    font-family: "Proxima Nova";
+    src: local("Proxima Nova"),
+    url('~@/assets/fonts/proxima-nova/ProximaNovaThin.woff') format("woff");
+}
+
+$primary-background: #20A6ED;
+$active-state: #00cf96;
+
+// Font Stacks
+$exo2: 'Exo 2',sans-serif;
+$roboto: 'Roboto',sans-serif;
+$avenir: 'Avenir',sans-serif;
+$proxima: 'ProximaNova',sans-serif;
+$thin: 100;
+$extralight: 200;
+$light: 300;
+$regular: 400;
+$medium: 500;
+$semibold: 600;
+$bold: 700;
+$extrabold: 800;
+$black: 900;
+
+@mixin apply-font($family,$weight,$size,$color) {
+    font-family: $family !important;
+    font-size: $size !important;
+    font-weight: $weight !important;
+    color: $color !important;
+}
+
+@mixin flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@mixin remove-button-defaults {
+    box-shadow: none !important;
+    border: none !important;
+    outline: none !important;
+}
+
+@mixin remove-input-defaults {
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+@mixin remove-anchor-defaults {
+    text-decoration: none !important;
+}
