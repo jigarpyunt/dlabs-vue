@@ -14,9 +14,10 @@
         <div class="col-12 nav-container">
           <ul>
             <li
-              class="active"
+              :class="{'active': $route.path == '/dashboard'}"
               @mouseover="ShowTooltip('dash')"
               @mouseleave="RemoveTooltip()"
+              @click="PushPage('/dashboard')"
             >
               <a href="javascript:void(0)">
                 <img src="@/assets/icons/dashboard.svg" alt="#" />
@@ -26,6 +27,9 @@
             <li
               @mouseover="ShowTooltip('diagnostics')"
               @mouseleave="RemoveTooltip()"
+              @click="PushPage('/diagnostics')"
+              :class="{'active': $route.path == '/diagnostics'}"
+
             >
               <a href="javascript:void(0)">
                 <img src="@/assets/icons/diagnostics.svg" alt="#" />
@@ -68,6 +72,8 @@
   </aside>
 </template>
 <script>
+import router from "@/router";
+
 export default {
   name: "Aside",
   data: function () {
@@ -104,6 +110,11 @@ export default {
         settings: false,
       };
     },
+    PushPage: function( page ) {
+        router.push({
+            path: page
+        }).catch(()=>{}); 
+    }
   },
 };
 </script>
@@ -113,8 +124,8 @@ aside {
   width: 91px;
   height: 100%;
   position: fixed;
-  background: $primary-background;
-
+  background: $primary;
+  z-index: 200;
   .logo-container {
     padding: 8px;
 
@@ -130,6 +141,9 @@ aside {
     ul {
       margin: 0;
       padding: 0;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
       li {
         list-style: none;
         background: rgba(0, 0, 0, 0.26);
