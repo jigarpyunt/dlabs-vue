@@ -23,6 +23,33 @@ section.page-content {
   top: 80px;
   background: #fff;
   overflow-y: scroll;
-  padding: 30px 40px 30px 40px;
+  padding: 30px 40px 150px 40px;
+
+  &::-webkit-scrollbar {
+      width: 8px;
+  }
+  &::-webkit-scrollbar-track {
+      width: 8px;
+      background: rgba(32,166,237,0.30);
+  }
+  &::-webkit-scrollbar-button {
+      display: none;
+  }
+  &::-webkit-scrollbar-thumb {
+      background: $primary;
+  }
+  &::-moz-scrollbar {
+      width: 8px;
+  }
+  &::-moz-scrollbar-track {
+      width: 8px;
+      background: rgba(32,166,237,0.30);
+  }
+  &::-moz-scrollbar-button {
+      display: none;
+  }
+  &::-moz-scrollbar-thumb {
+      background: $primary;
+  }
 }
 </style>

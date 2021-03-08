@@ -2,7 +2,7 @@
 <ul class="page-breadcrumb">
     <li>
         <a href="javascript:void(0)">
-            <span class="root-page">Diagostics / </span>
+            <span class="root-page">Diagnostics / </span>
             <span class="page-meta">Tests</span>
         </a>
     </li>
@@ -30,7 +30,7 @@ export default {
         a {
             @include remove-anchor-defaults;
             span {
-                @include apply-font($exo2,$bold,15px,#000);
+                @include apply-font($roboto,$bold,15px,#000);
                 letter-spacing: 2px;
             }
             span.page-meta {

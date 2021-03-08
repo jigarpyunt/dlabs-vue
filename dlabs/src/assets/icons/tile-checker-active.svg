@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15">
+  <g id="Group_22" data-name="Group 22" transform="translate(-352 -228)">
+    <g id="Rectangle_21" data-name="Rectangle 21" transform="translate(352 228)" fill="#fff" stroke="rgba(32,166,237,0.7)" stroke-width="1">
+      <rect width="15" height="15" rx="4" stroke="none"/>
+      <rect x="0.5" y="0.5" width="14" height="14" rx="3.5" fill="none"/>
+    </g>
+    <rect id="Rectangle_22" data-name="Rectangle 22" width="9" height="9" rx="2" transform="translate(355 231)" fill="#20a6ed"/>
+  </g>
+</svg>

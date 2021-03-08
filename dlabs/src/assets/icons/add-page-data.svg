@@ -1,0 +1,6 @@
+<svg id="floating_add" data-name="floating add" xmlns="http://www.w3.org/2000/svg" width="53" height="53" viewBox="0 0 53 53">
+  <g id="Group_60" data-name="Group 60">
+    <circle id="Ellipse_3" data-name="Ellipse 3" cx="26.5" cy="26.5" r="26.5" fill="#20a6ed"/>
+    <path id="plus" d="M23.014,41.845H15.047V33.79A1.78,1.78,0,0,0,13.277,32h-1.77a1.78,1.78,0,0,0-1.77,1.79v8.055H1.77A1.78,1.78,0,0,0,0,43.635v1.79a1.78,1.78,0,0,0,1.77,1.79H9.737v8.055a1.78,1.78,0,0,0,1.77,1.79h1.77a1.78,1.78,0,0,0,1.77-1.79V47.215h7.966a1.78,1.78,0,0,0,1.77-1.79v-1.79A1.78,1.78,0,0,0,23.014,41.845Z" transform="translate(15.041 -17.676)" fill="#fff"/>
+  </g>
+</svg>

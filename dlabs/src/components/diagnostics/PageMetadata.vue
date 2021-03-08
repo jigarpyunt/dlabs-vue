@@ -46,7 +46,7 @@ export default {
       list-style: none;
       display: inline-flex;
       align-items: center;
-      margin-right: 52px;
+      margin-right: 32px;
       height: 28px;
       padding-left: 20px;
       padding-right: 20px;
