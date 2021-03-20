@@ -74,8 +74,16 @@
               rows="10"
               class="form-control"
               placeholder="Specify pre test information"
+              v-model="testData.preTestInformation"
             ></textarea>
-            <h6 class="textarea-count"><span class="left">0</span> / 1000</h6>
+            <h6 class="textarea-count">
+              <span class="left">{{
+                testData.preTestInformation != null
+                  ? testData.preTestInformation.length
+                  : "0"
+              }}</span>
+              / 1000
+            </h6>
           </div>
         </div>
         <div class="form-row">
@@ -115,7 +123,7 @@
         </div>
         <div class="form-row">
           <div class="col-lg-12 form-group">
-            <label for="">Test Description Information</label>
+            <label for="">Test Description</label>
             <textarea
               name=""
               id=""
@@ -123,8 +131,16 @@
               rows="10"
               class="form-control"
               placeholder="Specify pre test description"
+              v-model="testData.testDescription"
             ></textarea>
-            <h6 class="textarea-count"><span class="left">0</span> / 1000</h6>
+            <h6 class="textarea-count">
+              <span class="left">{{
+                testData.testDescription != null
+                  ? testData.testDescription.length
+                  : "0"
+              }}</span>
+              / 1000
+            </h6>
           </div>
         </div>
         <div class="form-row">
@@ -149,6 +165,10 @@ export default {
         first: true,
         second: false,
       },
+      testData: {
+        preTestInfomation: null,
+        testDescription: null,
+      },
     };
   },
   methods: {
@@ -158,7 +178,7 @@ export default {
         second: false,
       };
       this.activePills[pill] = true;
-    },
+    }
   },
 };
 </script>
