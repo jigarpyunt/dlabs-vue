@@ -72,26 +72,26 @@ export default {
         {
           id: "cat",
           name: "Test Categories",
-          active: ["/diagnostics/testcategories"],
-          redirection: "/diagnostics/testcategories",
+          active: ["/diagnostics/categories","/diagnostics/addcategories"],
+          redirection: "/diagnostics/categories",
         },
         {
           id: "con",
           name: "Conditions",
-          active: ["/diagnostics/testconditions"],
-          redirection: "/diagnostics/testconditions",
+          active: ["/diagnostics/conditions","/diagnostics/addconditions"],
+          redirection: "/diagnostics/conditions",
         },
         {
           id: "spe",
           name: "Specialities",
-          active: ["/diagnostics/testspecialities"],
-          redirection: "/diagnostics/testspecialities",
+          active: ["/diagnostics/specialities","/diagnostics/addspecialities"],
+          redirection: "/diagnostics/specialities",
         },
         {
           id: "org",
           name: "Organs",
-          active: ["/diagnostics/testorgans"],
-          redirection: "/diagnostics/testorgans",
+          active: ["/diagnostics/organs","/diagnostics/addorgans"],
+          redirection: "/diagnostics/organs",
         },
       ],
     };
@@ -109,12 +109,32 @@ export default {
       if (this.$route.path == "/diagnostics/tests") {
         router.push({
           path: "/diagnostics/addtests",
-        });
+        }).catch(()=>{});
       }
       if (this.$route.path == "/diagnostics/profiles") {
         router.push({
           path: "/diagnostics/addprofiles",
-        });
+        }).catch(()=>{});
+      }
+      if (this.$route.path == "/diagnostics/categories") {
+        router.push({
+          path: "/diagnostics/addcategories",
+        }).catch(()=>{});
+      }
+      if (this.$route.path == "/diagnostics/conditions") {
+        router.push({
+          path: "/diagnostics/addconditions",
+        }).catch(()=>{});
+      }
+      if (this.$route.path == "/diagnostics/specialities") {
+        router.push({
+          path: "/diagnostics/addspecialities",
+        }).catch(()=>{});
+      }
+      if (this.$route.path == "/diagnostics/organs") {
+        router.push({
+          path: "/diagnostics/addorgans",
+        }).catch(()=>{});
       }
     },
   },

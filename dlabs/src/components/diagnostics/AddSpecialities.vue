@@ -1,85 +1,48 @@
 <template>
   <div>
     <div class="row">
-      <div class="col-lg-12 pill-navigation">
-        <div
-          href="javascript:void(0)"
-          :class="activePills.first ? 'pill-toggler active' : 'pill-toggler'"
-          @click="ChangePill('first')"
-        ></div>
-        <div
-          href="javascript:void(0)"
-          :class="activePills.second ? 'pill-toggler active' : 'pill-toggler'"
-          @click="ChangePill('second')"
-        ></div>
+      <div class="information-box">
+        <div class="row">
+          <div class="col-12 head">
+            <img src="@/assets/images/information-icon.svg" alt="#" />
+            <span>Information</span>
+          </div>
+          <div class="col-12 body">
+            <p>
+              Speciality are used to define the patient which test comes under
+              which speciality to present the information about the test like
+              <b>Cardiology, Neurology</b> etc
+            </p>
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="row" v-if="activePills.first">
       <div class="col-lg-7 form-data">
         <div class="form-row">
           <div class="col-lg-4 form-group">
-            <label for="">Profile Name</label>
+            <label for="">Speciality Name</label>
             <input
               type="text"
-              placeholder="Specify profile name"
+              placeholder="Specify speciality name"
               class="form-control"
             />
           </div>
-          <div class="col-lg-4 form-group">
-            <label for="">Profile Availibility</label>
-            <input type="text" placeholder="> 5 days" class="form-control" />
-          </div>
         </div>
         <div class="form-row">
-          <div class="col-lg-4 form-group">
-            <label for="">Add Tests in profile</label>
-            <button class="browse" @click="ShowTestSelections()">Browse</button>
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="col-lg-12 form-buttons">
-            <button class="next" @click="ChangePill('second')">Next</button>
-            <button class="save">Save</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="row" v-if="activePills.second">
-      <div class="col-lg-7 form-data">
-        <div class="form-row">
-          <div class="col-lg-8 form-group">
-            <label for="">Profile Pre Test Information</label>
+          <div class="col-lg-9 form-group">
+            <label for="">Speciality Description</label>
             <textarea
               name=""
               id=""
               cols="20"
               rows="10"
               class="form-control small"
-              placeholder="Specify profile pre test information"
-            ></textarea>
-            <h6 class="textarea-count"><span class="left">0</span> / 1000</h6>
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="col-lg-12 form-group">
-            <label for="">Profile Description</label>
-            <textarea
-              name=""
-              id=""
-              cols="20"
-              rows="10"
-              class="form-control"
-              placeholder="Specify profile description"
+              placeholder="Specify speciality description"
             ></textarea>
             <h6 class="textarea-count"><span class="left">0</span> / 1000</h6>
           </div>
         </div>
         <div class="form-row">
           <div class="col-lg-12 form-buttons">
-            <button class="previous" @click="ChangePill('first')">
-              Previous
-            </button>
             <button class="save">Save</button>
           </div>
         </div>
@@ -89,28 +52,12 @@
 </template>
 <script>
 export default {
-  name: "AddProfiles",
+  name: "AddCategories",
   components: {},
   data: function () {
-    return {
-      activePills: {
-        first: true,
-        second: false,
-      },
-    };
+    return {};
   },
-  methods: {
-    ChangePill: function (pill) {
-      this.activePills = {
-        first: false,
-        second: false,
-      };
-      this.activePills[pill] = true;
-    },
-    ShowTestSelections: function () {
-      this.$store.state.diagnostics.testSelections = true;
-    },
-  },
+  methods: {},
 };
 </script>
 <style lang="scss" scoped>
@@ -170,11 +117,13 @@ export default {
   input[type="text"]:focus {
     border-bottom: 2px solid #20a6ed;
   }
+
   .textarea-count {
     position: absolute;
     right: 50px;
     top: 0px;
   }
+
   textarea {
     @include remove-textarea-defaults;
     height: 197px;
@@ -187,6 +136,7 @@ export default {
     padding-top: 20px;
     resize: none;
   }
+
   textarea.small {
     height: 152px;
   }
@@ -221,8 +171,32 @@ export default {
     button.previous {
       background: #37dbb5;
     }
-    button:last-child {
+  }
+}
+
+.information-box {
+  text-align: left;
+  width: 634px;
+  min-height: 140px;
+  border-radius: 15px;
+  background: #d1ecf1;
+  border: 1px solid #bee5eb;
+  padding: 20px;
+  margin: 50px 0px 50px 0px;
+
+  .head {
+    span {
       margin-left: 20px;
+      @include apply-font($roboto, $bold, 14px, #0c5460);
+    }
+  }
+  .body {
+    p:first-child {
+      margin-top: 20px;
+    }
+    p {
+      @include apply-font($roboto, $regular, 14px, #0c5460);
+      line-height: 20px;
     }
   }
 }

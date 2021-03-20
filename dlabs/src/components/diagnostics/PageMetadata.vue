@@ -27,7 +27,7 @@ export default {
       store.commit('SetBreadCrumbActivePage', { pagename: name });
       router.push({
         path: page
-      })
+      }).catch(() => {});
     }
   },
   props: ['metadata']

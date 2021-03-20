@@ -6,6 +6,14 @@ import AddTests from "../components/diagnostics/AddTests.vue";
 import TestBox from "../components/diagnostics/TestBox.vue";
 import Profiles from "../components/diagnostics/Profiles.vue";
 import AddProfiles from "../components/diagnostics/AddProfiles.vue";
+import Categories from "../components/diagnostics/Categories.vue";
+import AddCategories from "../components/diagnostics/AddCategories.vue";
+import Conditions from "../components/diagnostics/Conditions.vue";
+import AddConditions from "../components/diagnostics/AddConditions.vue";
+import Specialities from "../components/diagnostics/Specialities.vue";
+import AddSpecialities from "../components/diagnostics/AddSpecialities.vue";
+import Organs from "../components/diagnostics/Organs.vue";
+import AddOrgans from "../components/diagnostics/AddOrgans.vue";
 
 
 
@@ -43,6 +51,46 @@ const routes = [
         path: "/diagnostics/addprofiles",
         name: "addprofiles",
         component: AddProfiles
+      },
+      {
+        path: "/diagnostics/categories",
+        name: "categories",
+        component: Categories
+      },
+      {
+        path: "/diagnostics/addcategories",
+        name: "addcategories",
+        component: AddCategories
+      },
+      {
+        path: "/diagnostics/conditions",
+        name: "conditions",
+        component: Conditions
+      },
+      {
+        path: "/diagnostics/addconditions",
+        name: "addconditions",
+        component: AddConditions
+      },
+      {
+        path: "/diagnostics/specialities",
+        name: "specialities",
+        component: Specialities
+      },
+      {
+        path: "/diagnostics/addspecialities",
+        name: "addspecialities",
+        component: AddSpecialities
+      },
+      {
+        path: "/diagnostics/organs",
+        name: "organs",
+        component: Organs
+      },
+      {
+        path: "/diagnostics/addorgans",
+        name: "addorgans",
+        component: AddOrgans
       },
       
 
