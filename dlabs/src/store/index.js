@@ -4,8 +4,20 @@ import Vuex from "vuex";
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  state: {},
-  mutations: {},
+  state: {
+    bcrumb: {
+      rootpage: null,
+      activepage: null
+    },
+    diagnostics: {
+        testSelections: false
+    }
+  },
+  mutations: {
+    SetBreadCrumbActivePage ( state, data ) {
+      state.bcrumb.activepage = data.pagename;
+    }
+  },
   actions: {},
   modules: {}
 });

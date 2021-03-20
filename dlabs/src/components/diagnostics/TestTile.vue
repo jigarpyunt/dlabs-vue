@@ -1,7 +1,7 @@
 <template>
-<div class="row test-box-container">
+
   <!-- Test Tile -->
-  <div class="col-lg-2">
+  <div class="col-lg-3">
     <div class="col-12 test-box">
       <!-- Checker -->
       <img
@@ -10,12 +10,7 @@
         class="tile-checker"
         v-if="false"
       />
-      <!-- Trashbin -->
-      <img
-        src="@/assets/icons/tile-trashbin.svg"
-        alt="#"
-        class="tile-trashbin"
-      />
+
 
       <div class="row">
         <div class="col-12 test-details">
@@ -30,19 +25,16 @@
       </div>
     </div>
   </div>
- </div>
+
 </template>
 <script>
 export default {
-  name: "TestBox",
+  name: "TestTile",
 };
 </script>
 <style lang="scss">
 @import "@/assets/scss/globals.scss";
 
-.test-box-container {
-  margin-top: 50px;
-}
 .test-box {
   text-align: left;
   height: 109px;
@@ -59,13 +51,6 @@ export default {
     position: absolute;
     top: 15px;
     right: 15px;
-    cursor: pointer;
-    z-index: 100;
-  }
-  .tile-trashbin {
-    position: absolute;
-    bottom: 14px;
-    right: 19px;
     cursor: pointer;
     z-index: 100;
   }

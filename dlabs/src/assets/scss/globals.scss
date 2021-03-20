@@ -95,11 +95,35 @@
     url('~@/assets/fonts/proxima-nova/ProximaNovaThin.woff') format("woff");
 }
 
+// PTSans
+@font-face {
+    font-family: "PTsans";
+    src: local("PTsans"),
+     url('~@/assets/fonts/pt-sans/PTSans-Bold.ttf') format("truetype");
+}
+@font-face {
+    font-family: "PTsans";
+    src: local("PTsans"),
+     url('~@/assets/fonts/pt-sans/PTSans-BoldItalic.ttf') format("truetype");
+}
+@font-face {
+    font-family: "PTsans";
+    src: local("PTsans"),
+     url('~@/assets/fonts/pt-sans/PTSans-Italic.ttf') format("truetype");
+}
+@font-face {
+    font-family: "PTsans";
+    src: local("PTsans"),
+     url('~@/assets/fonts/pt-sans/PTSans-Regular.ttf') format("truetype");
+}
+
 $primary: #20A6ED;
 $active-state: #00cf96;
+$blk: #272323;
 
 // Font Stacks
 $exo2: 'Exo 2',sans-serif;
+$ptsans: 'PT Sans', sans-serif;;
 $roboto: 'Roboto',sans-serif;
 $avenir: 'Avenir',sans-serif;
 $proxima: 'ProximaNova',sans-serif;
@@ -133,6 +157,10 @@ $black: 900;
 }
 
 @mixin remove-input-defaults {
+    box-shadow: none !important;
+    outline: none !important;
+}
+@mixin remove-textarea-defaults {
     box-shadow: none !important;
     outline: none !important;
 }

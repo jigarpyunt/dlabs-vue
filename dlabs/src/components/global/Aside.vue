@@ -14,7 +14,7 @@
         <div class="col-12 nav-container">
           <ul>
             <li
-              :class="{'active': $route.path == '/dashboard'}"
+              :class="{ active: $route.path == '/dashboard' }"
               @mouseover="ShowTooltip('dash')"
               @mouseleave="RemoveTooltip()"
               @click="PushPage('/dashboard')"
@@ -28,8 +28,14 @@
               @mouseover="ShowTooltip('diagnostics')"
               @mouseleave="RemoveTooltip()"
               @click="PushPage('/diagnostics')"
-              :class="{'active': $route.path == '/diagnostics'}"
-
+              :class="{
+                active:
+                  $route.path == '/diagnostics/' ||
+                  $route.path == '/diagnostics/tests' ||
+                  $route.path == '/diagnostics/addtests' ||
+                  $route.path == '/diagnostics/profiles' ||
+                  $route.path == '/diagnostics/addprofiles',
+              }"
             >
               <a href="javascript:void(0)">
                 <img src="@/assets/icons/diagnostics.svg" alt="#" />
@@ -56,7 +62,10 @@
               </a>
               <span class="tool-tip" v-if="tooltip.b2b">B2B</span>
             </li>
-            <li @mouseover="ShowTooltip('offers')" @mouseleave="RemoveTooltip()">
+            <li
+              @mouseover="ShowTooltip('offers')"
+              @mouseleave="RemoveTooltip()"
+            >
               <a href="javascript:void(0)">
                 <img src="@/assets/icons/offers.svg" alt="#" />
               </a>
@@ -124,11 +133,13 @@ export default {
         settings: false,
       };
     },
-    PushPage: function( page ) {
-        router.push({
-            path: page
-        }).catch(()=>{}); 
-    }
+    PushPage: function (page) {
+      router
+        .push({
+          path: page,
+        })
+        .catch(() => {});
+    },
   },
 };
 </script>

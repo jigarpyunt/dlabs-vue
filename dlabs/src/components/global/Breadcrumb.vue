@@ -2,8 +2,8 @@
 <ul class="page-breadcrumb">
     <li>
         <a href="javascript:void(0)">
-            <span class="root-page">Diagnostics / </span>
-            <span class="page-meta">Tests</span>
+            <span class="root-page">{{ rootpage }} / </span>
+            <span class="page-meta">{{ activepage }}</span>
         </a>
     </li>
 </ul>
@@ -11,7 +11,8 @@
 </template>
 <script>
 export default {
-    name: "Breadcrumb"
+    name: "Breadcrumb",
+    props: ['rootpage','activepage']
 }
 </script>
 <style lang="scss" scoped>
