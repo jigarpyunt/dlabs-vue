@@ -29,6 +29,10 @@
             <label for="">Profile Availibility</label>
             <input type="text" placeholder="> 5 days" class="form-control" />
           </div>
+          <div class="col-lg-4 form-group">
+            <label for="">Profile Price</label>
+            <input type="text" placeholder="1000 INR" class="form-control" />
+          </div>
         </div>
         <div class="form-row">
           <div class="col-lg-4 form-group">

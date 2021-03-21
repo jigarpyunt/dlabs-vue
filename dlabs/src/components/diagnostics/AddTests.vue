@@ -75,6 +75,7 @@
               class="form-control"
               placeholder="Specify pre test information"
               v-model="testData.preTestInformation"
+              @keypress.ctrl="ValidateTextarea($event, 'preTestInformation')"
             ></textarea>
             <h6 class="textarea-count">
               <span class="left">{{
@@ -166,8 +167,8 @@ export default {
         second: false,
       },
       testData: {
-        preTestInfomation: null,
-        testDescription: null,
+        preTestInfomation: '',
+        testDescription: '',
       },
     };
   },
@@ -178,6 +179,12 @@ export default {
         second: false,
       };
       this.activePills[pill] = true;
+    },
+    ValidateTextarea: function(event, textarea) {
+        
+        if( this.testData[textarea].length > 20 ) {
+            event.preventDefault();
+        }
     }
   },
 };
