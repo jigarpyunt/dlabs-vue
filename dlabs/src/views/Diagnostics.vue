@@ -11,7 +11,30 @@
         />
       </template>
       <template v-slot:main>
-        <PageMetadata :metadata="pageMetaData" />
+        <!-- <PageMetadata :metadata="pageMetaData" /> -->
+        <!-- Page Brudcrumb -->
+        <div class="row">
+          <div class="col-lg-12 page-metadata">
+            <nav>
+              <ul>
+                <li :class="data.active.includes($route.path) ? 'active':''" v-for="data in metadata" :key="data.code" @click="Navigate(data.active[0],data.name)">
+                  <a href="javascript:void(0)">{{ data.name }}</a>
+                </li>
+              </ul>
+            </nav>
+            <div class="page-filters">
+              <div class="sort-op">A-Z</div>
+              <div class="sort-op">Z-A</div>
+              <div class="sort-op">
+                <img src="@/assets/icons/calendar-unactive.svg" alt="#">
+              </div>
+              <div class="search-container">
+                <input type="text" placeholder="Search by name...">
+                <img src="@/assets/icons/search-icon.svg" alt="#" class="search-icon">
+              </div>
+            </div>
+          </div>
+        </div>
         <router-view :key="$route.path" />
       </template>
       <template v-slot:footer>
@@ -41,7 +64,7 @@ import Aside from "@/components/global/Aside";
 import Header from "@/components/global/Header.vue";
 import PageContent from "@/components/global/PageContent";
 import Breadcrumb from "@/components/global/Breadcrumb";
-import PageMetadata from "@/components/diagnostics/PageMetadata";
+// import PageMetadata from "@/components/diagnostics/PageMetadata";
 import TestSelections from "@/components/diagnostics/TestSelections";
 
 export default {
@@ -49,14 +72,14 @@ export default {
   components: {
     Aside,
     Header,
-    PageMetadata,
+    // PageMetadata,
     Breadcrumb,
     PageContent,
     TestSelections,
   },
   data: function () {
     return {
-      pageMetaData: [
+      metadata: [
         {
           id: "tes",
           name: "Tests",
@@ -105,6 +128,12 @@ export default {
     
   },
   methods: {
+    Navigate : function ( page, name ) {
+      store.commit('SetBreadCrumbActivePage', { pagename: name });
+      router.push({
+        path: page
+      }).catch(() => {});
+    },
     AddPage: function () {
       if (this.$route.path == "/diagnostics/tests") {
         router.push({
@@ -163,6 +192,83 @@ export default {
 
     &.page-setting {
       margin-right: 10px;
+    }
+  }
+}
+.page-filters {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  .sort-op {
+    width: 30px;
+    height: 30px;
+    border-radius: 30px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+    border: 1.5px solid #20A6ED;
+    @include apply-font($roboto, $regular, 13px, $primary);
+    cursor: pointer;
+  }
+  .search-container {
+    width: 234px;
+    height: 35px;
+    border: 1px solid $primary;
+    border-radius: 38px;
+    display: inline-flex;
+    padding: 0px 13px;
+    
+    input {
+      @include remove-input-defaults;
+      border: none;
+      width: 180px;
+      @include apply-font($roboto, $regular, 14px, $primary);
+
+      &::-webkit-input-placeholder {
+       @include apply-font($roboto, $regular, 14px, rgba(32,166,237,0.58));
+      }
+    }
+    img.search-icon {
+      height: 20px;
+      position: absolute;
+      top: 8px;
+      right: 10px;
+    }
+    
+  }
+}
+
+.page-metadata {
+  text-align: left;
+  padding-top: 30px;
+  padding-bottom: 10px;
+  ul {
+    margin: 0;
+    padding: 0;
+    li {
+      list-style: none;
+      display: inline-flex;
+      align-items: center;
+      margin-right: 32px;
+      height: 28px;
+      padding-left: 20px;
+      padding-right: 20px;
+      border-radius: 9px;
+      background: #EAEAEA;//rgba(129,129,129,0.81);
+      cursor: pointer;
+      a {
+        @include remove-anchor-defaults;
+        @include apply-font($proxima, $regular, 14px, $primary);
+        letter-spacing: 1.5px;
+        color: #000 !important;
+      }
+    }
+    li.active {
+      background: $primary;
+      a {
+        color: #fff !important;
+      }
     }
   }
 }
