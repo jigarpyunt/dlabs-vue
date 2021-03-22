@@ -1,6 +1,7 @@
 <template>
   <div>
     <TestSelections v-if="$store.state.diagnostics.testSelections" />
+    <ViewTest v-if="$store.state.diagnostics.viewTest" />
     <Aside />
     <Header />
     <PageContent>
@@ -23,7 +24,7 @@
               </ul>
             </nav>
             <div class="page-filters">
-              <div class="sort-op">A-Z</div>
+              <div class="sort-op active">A-Z</div>
               <div class="sort-op">Z-A</div>
               <div class="sort-op">
                 <img src="@/assets/icons/calendar-unactive.svg" alt="#">
@@ -36,7 +37,7 @@
           </div>
         </div>
         <router-view :key="$route.path" />
-      </template>
+      </template> 
       <template v-slot:footer>
         <div class="footer-container">
           <!-- Page Setting and Page Add Data -->
@@ -64,18 +65,18 @@ import Aside from "@/components/global/Aside";
 import Header from "@/components/global/Header.vue";
 import PageContent from "@/components/global/PageContent";
 import Breadcrumb from "@/components/global/Breadcrumb";
-// import PageMetadata from "@/components/diagnostics/PageMetadata";
 import TestSelections from "@/components/diagnostics/TestSelections";
+import ViewTest from "@/components/diagnostics/ViewTest";
 
 export default {
   name: "Dashboard",
   components: {
     Aside,
     Header,
-    // PageMetadata,
     Breadcrumb,
     PageContent,
     TestSelections,
+    ViewTest
   },
   data: function () {
     return {
@@ -210,6 +211,10 @@ export default {
     border: 1.5px solid #20A6ED;
     @include apply-font($roboto, $regular, 13px, $primary);
     cursor: pointer;
+  }
+  .sort-op.active {
+    background: $primary;
+    color: #fff !important;
   }
   .search-container {
     width: 234px;

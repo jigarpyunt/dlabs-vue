@@ -2,7 +2,7 @@
 <div class="row test-box-container">
   <!-- Test Tile -->
   <div class="col-lg-2">
-    <div class="col-12 test-box">
+    <div class="col-12 test-box" @click="ViewTest()">
       <!-- Checker -->
       <img
         src="@/assets/icons/tile-checker-unactive.svg"
@@ -12,7 +12,7 @@
       />
       <!-- Trashbin -->
       <img
-        src="@/assets/icons/tile-trashbin.svg"
+        src="@/assets/icons/trash-sm-dark.svg"
         alt="#"
         class="tile-trashbin"
       />
@@ -35,6 +35,11 @@
 <script>
 export default {
   name: "TestBox",
+  methods: {
+    ViewTest: function() {
+      this.$store.state.diagnostics.viewTest = true;
+    } 
+  }
 };
 </script>
 <style lang="scss">

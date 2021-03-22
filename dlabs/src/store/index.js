@@ -10,7 +10,8 @@ export default new Vuex.Store({
       activepage: null
     },
     diagnostics: {
-        testSelections: false
+        testSelections: false,
+        viewTest: false
     }
   },
   mutations: {
