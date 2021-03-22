@@ -1,7 +1,7 @@
 <template>
   <div class="row">
     <div class="col-lg-3 profile-tile-outlet">
-      <div class="col-12 profile-tile">
+      <div class="col-12 profile-tile" @click="ViewProfile()">
         <div class="row">
           <div class="col-12 profile-details">
             <h6>Lipid Profile</h6>
@@ -52,6 +52,11 @@
 <script>
 export default {
   name: "TestProfileTile",
+  methods: {
+    ViewProfile: function( ) {
+      this.$store.state.diagnostics.viewProfile = true;
+    }
+  }
 };
 </script>
 <style lang="scss" scoped>

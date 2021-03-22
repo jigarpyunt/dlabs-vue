@@ -2,6 +2,7 @@
   <div>
     <TestSelections v-if="$store.state.diagnostics.testSelections" />
     <ViewTest v-if="$store.state.diagnostics.viewTest" />
+    <ViewProfile v-if="$store.state.diagnostics.viewProfile" />
     <Aside />
     <Header />
     <PageContent>
@@ -67,6 +68,7 @@ import PageContent from "@/components/global/PageContent";
 import Breadcrumb from "@/components/global/Breadcrumb";
 import TestSelections from "@/components/diagnostics/TestSelections";
 import ViewTest from "@/components/diagnostics/ViewTest";
+import ViewProfile from "@/components/diagnostics/ViewProfile";
 
 export default {
   name: "Dashboard",
@@ -76,7 +78,8 @@ export default {
     Breadcrumb,
     PageContent,
     TestSelections,
-    ViewTest
+    ViewTest,
+    ViewProfile
   },
   data: function () {
     return {

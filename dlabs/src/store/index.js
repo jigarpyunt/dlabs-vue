@@ -11,7 +11,8 @@ export default new Vuex.Store({
     },
     diagnostics: {
         testSelections: false,
-        viewTest: false
+        viewTest: false,
+        viewProfile: false
     }
   },
   mutations: {

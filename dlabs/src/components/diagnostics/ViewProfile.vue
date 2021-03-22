@@ -1,5 +1,5 @@
 <template>
-  <div class="modal-container" @click.self="CloseViewTestModal()">
+  <div class="modal-container" @click.self="CloseViewProfileModal()">
     <div class="content-modal">
       <div class="row">
         <div class="col-lg-12 header">
@@ -29,37 +29,22 @@
         <div class="col-lg-10 view-data">
           <div class="row">
             <div class="col-4">
-              <label> Test Name </label>
-              <div class="data-viewer-inp">Brucella Vidal</div>
+              <label> Profile Name </label>
+              <div class="data-viewer-inp">Lipid Profile</div>
             </div>
             <div class="col-4">
-              <label> Test Unit </label>
-              <div class="data-viewer-inp">20mg/dl</div>
-            </div>
-            <div class="col-4">
-              <label> Test Reference Range </label>
-              <div class="data-viewer-inp">20-40</div>
+              <label> Profile Availibility </label>
+              <div class="data-viewer-inp">5 Days</div>
             </div>
           </div>
           <div class="row">
-            <div class="col-4">
-              <label> Test Price </label>
-              <div class="data-viewer-inp">1000 INR</div>
-            </div>
-            <div class="col-4">
-              <label> Test CODE </label>
-              <div class="data-viewer-inp">BRUC019374</div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-12">
-              <label> Pre Test Information </label>
+               <div class="col-8">
+              <label> Tests In Profile </label>
               <div class="data-viewer-textarea">
-                Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
-                Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
-                Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem IpsumLorem
-                IpsumLorem Ipsum…
+                  <span class="test-badge">Test 1</span>
+                  <span class="test-badge">Test 2</span>
               </div>
+              
             </div>
           </div>
         </div>
@@ -67,32 +52,8 @@
       <div class="row" v-if="activePills.second">
         <div class="col-lg-10 view-data">
           <div class="row">
-            <div class="col-4">
-              <label> Test Speciality </label>
-              <div class="data-viewer-inp">NA</div>
-            </div>
-            <div class="col-4">
-              <label> Test Organ </label>
-              <div class="data-viewer-inp">Heart</div>
-            </div>
-            <div class="col-4">
-              <label> Test Condition </label>
-              <div class="data-viewer-inp">Fever</div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-4">
-              <label> Test Category </label>
-              <div class="data-viewer-inp">Pathelogy</div>
-            </div>
-            <div class="col-4">
-              <label> Report Availibility  </label>
-              <div class="data-viewer-inp">5 Days</div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-12">
-              <label> Test Description </label>
+            <div class="col-8">
+              <label> Profile Pre Test Information </label>
               <div class="data-viewer-textarea">
                 Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
                 Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
@@ -100,6 +61,15 @@
                 IpsumLorem Ipsum…
               </div>
             </div>
+             <div class="col-12">
+                <label> Pre Test Description </label>
+                <div class="data-viewer-textarea">
+                  Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
+                  Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
+                  Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem
+                  IpsumLorem IpsumLorem Ipsum…
+                </div>
+              </div>
           </div>
         </div>
       </div>
@@ -108,7 +78,7 @@
 </template>
 <script>
 export default {
-  name: "ViewTest",
+  name: "ViewProfile",
   components: {},
   data: function () {
     return {
@@ -119,8 +89,8 @@ export default {
     };
   },
   methods: {
-    CloseViewTestModal: function () {
-      this.$store.state.diagnostics.viewTest = false;
+    CloseViewProfileModal: function () {
+      this.$store.state.diagnostics.viewProfile = false;
     },
     ChangePill: function (pill) {
       this.activePills = {
@@ -220,7 +190,6 @@ export default {
         right: 100px;
         top: 53px;
         cursor: pointer;
-        
       }
     }
     .view-data {
@@ -244,6 +213,15 @@ export default {
         height: 200px;
         align-items: flex-start;
         padding-top: 20px;
+      }
+      .test-badge {
+          background: $active-state;
+          padding: 3px 15px;
+          border-radius: 8px;
+          @include apply-font($roboto, $bold, 13px, #fff);
+          letter-spacing: 1.05px;
+          margin-right: 10px;
+
       }
     }
   }
