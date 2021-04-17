@@ -13,6 +13,9 @@ export default new Vuex.Store({
         testSelections: false,
         viewTest: false,
         viewProfile: false
+    },
+    api: {
+      diagnostics: 'http://localhost:3000/api/diagnostics'
     }
   },
   mutations: {

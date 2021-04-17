@@ -14,6 +14,13 @@
         ></div>
       </div>
     </div>
+    <div class="row">
+      <div class="col-lg-7">
+        <div class="alert alert-danger" v-if="validators.error != null" style="text-align: left">
+            {{ validators.error }}
+        </div>
+      </div>
+    </div>
     <div class="row" v-if="activePills.first">
       <div class="col-lg-7 form-data">
         <div class="form-row">
@@ -23,6 +30,7 @@
               type="text"
               placeholder="Specify test name"
               class="form-control"
+              v-model="testData.name"
             />
           </div>
           <div class="col-lg-4 form-group">
@@ -31,6 +39,7 @@
               type="text"
               placeholder="Specify test unit mg/dl"
               class="form-control"
+              v-model="testData.unit"
             />
           </div>
           <div class="col-lg-4 form-group">
@@ -39,6 +48,7 @@
               type="text"
               placeholder="Specify test range  12.0 - 30.9"
               class="form-control"
+              v-model="testData.range"
             />
           </div>
         </div>
@@ -49,6 +59,7 @@
               type="text"
               placeholder="Specify test price 1500"
               class="form-control"
+              v-model="testData.price"
             />
           </div>
           <div class="col-lg-4 form-group">
@@ -57,11 +68,18 @@
               type="text"
               placeholder="Specify test prefix LIP"
               class="form-control"
+              v-model="testData.codePrefix"
+              @keyup="GenerateCodeWithPrefix"
+              @keypress="ValidateCodePrefix($event)"
+
             />
           </div>
           <div class="col-lg-4 form-group">
             <label for="">Test Code</label>
-            <span class="testcode-gen">BRUC0047873</span>
+            <span class="testcode-gen">
+              {{ testData.codePrefix !=null ? testData.codePrefix + testData.code : testData.code  }}
+              <!-- Getting Generated Dynamically -->
+            </span>
           </div>
         </div>
         <div class="form-row">
@@ -90,7 +108,7 @@
         <div class="form-row">
           <div class="col-lg-12 form-buttons">
             <button class="next" @click="ChangePill('second')">Next</button>
-            <button class="save">Save</button>
+            <button class="save" @click="SaveTest">Save</button>
           </div>
         </div>
       </div>
@@ -101,25 +119,46 @@
         <div class="form-row">
           <div class="col-lg-4 form-group">
             <label for="">Test Speciality</label>
-            <input type="text" placeholder="Liver" class="form-control" />
+            <input list="specialities" type="text" placeholder="Liver" class="form-control" v-model="testData.speciality"/>
+            <datalist id="specialities">
+                <template v-for="speciality in specialities">
+                  <option :value="speciality.name" :key="speciality._id" />
+                </template>
+            </datalist>
           </div>
           <div class="col-lg-4 form-group">
             <label for="">Test Organ</label>
-            <input type="text" placeholder="Heart" class="form-control" />
+            <input type="text" placeholder="Heart" class="form-control" v-model="testData.organ"/>
           </div>
           <div class="col-lg-4 form-group">
             <label for="">Test Condition</label>
-            <input type="text" placeholder="Fever" class="form-control" />
+            <input list="conditions" type="text" placeholder="Fever" class="form-control" v-model="testData.condition" />
+            <datalist id="conditions">
+                <template v-for="condition in conditions">
+                  <option :value="condition.name" :key="condition._id" />
+                </template>
+            </datalist>
           </div>
         </div>
         <div class="form-row">
           <div class="col-lg-4 form-group">
             <label for="">Test Category</label>
-            <input type="text" placeholder="Hametology" class="form-control" />
+            <input list="categories" type="text" placeholder="Hametology" class="form-control" v-model="testData.category"/>
+            <datalist id="categories">
+                <template v-for="category in categories">
+                  <option :value="category.name" :key="category._id" />
+                </template>
+            </datalist>
           </div>
           <div class="col-lg-4 form-group">
             <label for="">Report Availibility Time</label>
-            <input type="text" placeholder="2 days" class="form-control" />
+            <input list="availibilites" type="text" placeholder="2 days" class="form-control" v-model="testData.reportAvalibilityTime"/>
+             <datalist id="availibilites">
+                <option value="One Day" />
+                <option value="Within 2 Days" />
+                <option value="Less than 5 days" />
+                <option value="Greater than 5 days" />
+            </datalist>
           </div>
         </div>
         <div class="form-row">
@@ -149,7 +188,7 @@
             <button class="previous" @click="ChangePill('first')">
               Previous
             </button>
-            <button class="save">Save</button>
+            <button class="save" @click="SaveTest">Save</button>
           </div>
         </div>
       </div>
@@ -157,6 +196,17 @@
   </div>
 </template>
 <script>
+import axios from "axios";
+import store from "@/store";
+
+const diagnosticsApi = store.state.api.diagnostics;
+const saveTestUri = '/tests';
+const getSpecialitiesUri = '/specialities'
+const getConditionsUri = '/conditions'
+const getOrgansUri = '/organs'
+const getCategoriesUri = '/categories'
+
+
 export default {
   name: "AddTests",
   components: {},
@@ -166,11 +216,29 @@ export default {
         first: true,
         second: false,
       },
+      specialities: null,
+      categories: null,
+      conditions: null,
+      organs: null,      
       testData: {
-        preTestInfomation: '',
-        testDescription: '',
+        name: "",
+        unit: "",
+        range: "",
+        price: "",
+        codePrefix: "",
+        code: this.GenerateCodeWithoutPrefix(),
+        preTestInformation: "",
+        speciality: "",
+        organ: "",
+        condition: "",
+        category: "",
+        reportAvalibilityTime: "",
+        description: ""
       },
-    };
+      validators: {
+        error: null
+      }
+    };  
   },
   methods: {
     ChangePill: function (pill) {
@@ -181,12 +249,89 @@ export default {
       this.activePills[pill] = true;
     },
     ValidateTextarea: function(event, textarea) {
-        
         if( this.testData[textarea].length > 20 ) {
             event.preventDefault();
         }
+    },
+    GenerateCodeWithoutPrefix() {
+      let dateObj = new Date();
+      let code = `${(dateObj.getMonth() + 1)}${dateObj.getDay()}${dateObj.getSeconds()}${dateObj.getMilliseconds()}`;
+      return code;
+    },
+    GenerateCodeWithPrefix() {
+       this.testData.codePrefix = this.testData.codePrefix.toUpperCase();
+    },
+    ValidateCodePrefix (event) {
+        if( this.testData.codePrefix.length == 4 ) {
+          event.preventDefault();
+        } 
+    },
+    async GetSpecialites() {
+      try {
+       let specialities = await axios({
+          method: 'get',
+          url: diagnosticsApi + getSpecialitiesUri
+        });
+        this.specialities = specialities.data;
+      } catch( err ) {
+        console.log(err.response);
+      }
+    },
+    async GetOrgans() {
+      try {
+       let organs = await axios({
+          method: 'get',
+          url: diagnosticsApi + getOrgansUri
+        });
+        this.organs = organs.data;
+      } catch( err ) {
+        console.log(err.response);
+      }
+    },
+    async GetConditions() {
+      try {
+       let conditions = await axios({
+          method: 'get',
+          url: diagnosticsApi + getConditionsUri
+        });
+        this.conditions = conditions.data;
+      } catch( err ) {
+        console.log(err.response);
+      }
+    },
+    async GetCategories() {
+      try {
+       let categories = await axios({
+          method: 'get',
+          url: diagnosticsApi + getCategoriesUri
+        });
+        this.categories = categories.data;
+      } catch( err ) {
+        console.log(err.response);
+      }
+    },
+    async SaveTest() {
+      try {
+        let response = await axios({
+            method: 'post',
+            url: diagnosticsApi + saveTestUri,
+            data: this.testData
+        });
+        console.log(response);
+      } catch( err ) {
+       if( err.response.status == 400 ) {
+           this.validators.error  = err.response.data;
+        }
+      }
+      
     }
   },
+  mounted: async function() {
+    await this.GetSpecialites();
+    // GetOrgans();
+    await this.GetConditions();
+    await this.GetCategories();
+  }
 };
 </script>
 <style lang="scss" scoped>
