@@ -1,7 +1,7 @@
 <template>
 <div class="row condition-box-container">
   <!-- Test Tile -->
-  <div class="col-lg-2">
+  <div class="col-lg-2" v-for="methadology in methadologies" :key="methadology._id">
     <div class="col-12 condition-box">
       <!-- Checker -->
       <img
@@ -24,7 +24,7 @@
 
       <div class="row">
         <div class="col-12 test-details">
-          <h6>Brucella Vedal</h6>
+          <h6 :title="methadology.name">{{ methadology.name.length > 14 ? `${methadology.name.substring(0,11)}...` : methadology.name  }}</h6>
         </div>
       </div>
     </div>
@@ -32,8 +32,37 @@
  </div>
 </template>
 <script>
+import axios from "axios";
+import store from "@/store";
+
+const diagnosticsApi = store.state.api.diagnostics;
+const getMethadologiesUri = "/methadologies";
+
 export default {
-  name: "Categories",
+  name: "Methadologies",
+  data: function() {
+    return {
+      methadologies: []
+    }
+  },
+  methods: {
+    async GetAllCategories() {
+      try {
+        let methadologies = await axios({
+          method: "get",
+          url: diagnosticsApi + getMethadologiesUri,
+        });
+        this.methadologies = methadologies.data
+      } catch (err) {
+        if (err.response.status == 400) {
+          this.validators.error = err.response.data;
+        }
+      }
+    }
+  },
+  mounted: function() {
+    this.GetAllCategories();
+  }
 };
 </script>
 <style lang="scss">

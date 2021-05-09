@@ -37,12 +37,10 @@
                   $route.path == '/diagnostics/addprofiles' ||
                   $route.path == '/diagnostics/categories' ||
                   $route.path == '/diagnostics/addcategories' ||
-                  $route.path == '/diagnostics/conditions' ||
-                  $route.path == '/diagnostics/addconditions' ||
+                  $route.path == '/diagnostics/methadologies' ||
+                  $route.path == '/diagnostics/addmethadologies' ||
                   $route.path == '/diagnostics/specialities' ||
-                  $route.path == '/diagnostics/addspecialities' ||
-                  $route.path == '/diagnostics/organs' ||
-                  $route.path == '/diagnostics/addorgans',
+                  $route.path == '/diagnostics/addspecialities'
               }"
             >
               <a href="javascript:void(0)">

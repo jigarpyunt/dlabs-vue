@@ -1,8 +1,9 @@
 <template>
 <div class="row test-box-container">
   <!-- Test Tile -->
-  <div class="col-lg-2">
-    <div class="col-12 test-box" @click="ViewTest()">
+  <div class="col-lg-2" v-for="test in tests" :key="test._id">
+
+    <div class="col-12 test-box" @click="ViewTest(test._id)">
       <!-- Checker -->
       <img
         src="@/assets/icons/tile-checker-unactive.svg"
@@ -19,13 +20,13 @@
 
       <div class="row">
         <div class="col-12 test-details">
-          <h6>Brucella Vedal</h6>
-          <h5>BRC04567</h5>
+          <h6 :title="test.name">{{ test.name.length > 14 ? `${test.name.substring(0,11)}...` : test.name}}</h6>
+          <h5>{{ test.codePrefix + test.code }}</h5>
         </div>
-        <span class="category-tag">Pathology</span>
+        <span class="category-tag" :title="test.category.name">{{ test.category.name.length > 14 ? `${test.category.name.substring(0,11)}...` : test.category.name }}</span>
         <!-- <img src="@/assets/icons/sep.svg" alt="#" class="sep"> -->
         <div class="col-12 test-pricing">
-          <h6><img src="@/assets/icons/rupee-sign.svg" alt="#" /> 1499/-</h6>
+          <h6><img src="@/assets/icons/rupee-sign.svg" alt="#" /> {{ test.price }}/-</h6>
         </div>
       </div>
     </div>
@@ -33,12 +34,55 @@
  </div>
 </template>
 <script>
+import axios from "axios";
+import store from "@/store";
+
+const diagnosticsApi = store.state.api.diagnostics;
+const getTestsUri = "/tests";
+
 export default {
   name: "TestBox",
+  data: function() {
+    return {
+      tests: [],
+    }
+  },
   methods: {
-    ViewTest: function() {
-      this.$store.state.diagnostics.viewTest = true;
-    } 
+    async ViewTest (_id) {
+      try {
+        let test = await axios({
+          method: "get",
+          url: diagnosticsApi + getTestsUri,
+          params:  {
+            id: _id
+          }
+        });
+        store.dispatch('ViewTestData', test.data);
+        this.$store.state.diagnostics.viewTest = true;
+
+      } catch (err) {
+        if (err.response.status == 400) {
+          this.validators.error = err.response.data;
+        }
+      }
+
+    },
+    async GetAllTests() {
+      try {
+        let tests = await axios({
+          method: "get",
+          url: diagnosticsApi + getTestsUri,
+        });
+        this.tests = tests.data
+      } catch (err) {
+        if (err.response.status == 400) {
+          this.validators.error = err.response.data;
+        }
+      }
+    }
+  },
+  mounted: function() {
+    this.GetAllTests();
   }
 };
 </script>

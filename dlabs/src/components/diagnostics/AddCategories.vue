@@ -3,49 +3,97 @@
     <div class="row">
       <div class="information-box">
         <div class="row">
-            <div class="col-12 head">
-                <img src="@/assets/images/information-icon.svg" alt="#">
-                <span>Information</span>
-            </div>
-            <div class="col-12 body">
-                <p>Categorisation of test are like biochemistry , pathology, radiology etc</p>
-                <p><b>Biochemistry</b> - CBC , Urine etc</p>
-                <p><b>Pathology</b> - USG , echo etc</p>
-
-            </div>
-        </div>
-    </div>
-      <div class="col-lg-7 form-data">
-        <div class="form-row">
-          <div class="col-lg-4 form-group">
-            <label for="">Category Name</label>
-            <input
-              type="text"
-              placeholder="Specify category name"
-              class="form-control"
-            />
+          <div class="col-12 head">
+            <img src="@/assets/images/information-icon.svg" alt="#" />
+            <span>Information</span>
           </div>
-        </div>
-        <div class="form-row">
-          <div class="col-lg-12 form-buttons">
-            <button class="save">Save</button>
+          <div class="col-12 body">
+            <p>
+              Categorisation of test are like biochemistry , pathology,
+              radiology etc
+            </p>
+            <p><b>Biochemistry</b> - CBC , Urine etc</p>
+            <p><b>Pathology</b> - USG , echo etc</p>
           </div>
         </div>
       </div>
+        <div class="col-lg-7">
+          <div
+            class="alert alert-danger"
+            v-if="validators.error != null"
+            style="text-align: left"
+          >
+            {{ validators.error }}
+          </div>
+        </div>
+
+        <div class="col-lg-7 form-data">
+          <div class="form-row">
+            <div class="col-lg-4 form-group">
+              <label for="">Category Name</label>
+              <input
+                type="text"
+                placeholder="Specify category name"
+                class="form-control"
+                v-model="categoryData.name"
+              />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col-lg-12 form-buttons">
+              <button class="save" @click="SaveCategory">Save</button>
+            </div>
+          </div>
+        </div>
     </div>
   </div>
 </template>
 <script>
+import axios from "axios";
+import store from "@/store";
+import router from "@/router";
+import swal from 'sweetalert2';
+
+
+
+const diagnosticsApi = store.state.api.diagnostics;
+const saveCategoryUri = "/categories";
 
 export default {
   name: "AddCategories",
-  components: {
-  },
+  components: {},
   data: function () {
     return {
+      categoryData: {
+        name: "",
+      },
+      validators: {
+        error: null,
+      },
     };
   },
   methods: {
+    async SaveCategory() {
+      try {
+        let response = await axios({
+          method: "post",
+          url: diagnosticsApi + saveCategoryUri,
+          data: this.categoryData,
+        });
+        if (response.status == 200 ) {
+           swal.fire({
+              title: 'Success',
+              text: 'Category Saved Successfully',
+              icon: 'success'
+            });
+            router.push('/diagnostics/categories');
+        }
+      } catch (err) {
+        if (err.response.status == 400) {
+          this.validators.error = err.response.data;
+        }
+      }
+    },
   },
 };
 </script>
@@ -155,29 +203,29 @@ export default {
 }
 
 .information-box {
-    text-align: left;
-    width: 634px;
-    min-height: 140px;
-    border-radius: 15px;
-    background: #D1ECF1;
-    border: 1px solid #BEE5EB;
-    padding: 20px;
-    margin: 50px 0px 50px 0px;
+  text-align: left;
+  width: 634px;
+  min-height: 140px;
+  border-radius: 15px;
+  background: #d1ecf1;
+  border: 1px solid #bee5eb;
+  padding: 20px;
+  margin: 50px 0px 50px 15px;
 
-    .head { 
-        span {
-            margin-left: 20px;
-            @include apply-font($roboto, $bold, 14px, #0C5460);
-        }
+  .head {
+    span {
+      margin-left: 20px;
+      @include apply-font($roboto, $bold, 14px, #0c5460);
     }
-    .body {
-        p:first-child {
-            margin-top: 30px;
-        }
-        p {
-            @include apply-font($roboto, $regular, 14px, #0C5460);
-            line-height: 20px;
-        }
+  }
+  .body {
+    p:first-child {
+      margin-top: 30px;
     }
+    p {
+      @include apply-font($roboto, $regular, 14px, #0c5460);
+      line-height: 20px;
+    }
+  }
 }
 </style>

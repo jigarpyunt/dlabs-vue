@@ -8,12 +8,10 @@ import Profiles from "../components/diagnostics/Profiles.vue";
 import AddProfiles from "../components/diagnostics/AddProfiles.vue";
 import Categories from "../components/diagnostics/Categories.vue";
 import AddCategories from "../components/diagnostics/AddCategories.vue";
-import Conditions from "../components/diagnostics/Conditions.vue";
-import AddConditions from "../components/diagnostics/AddConditions.vue";
 import Specialities from "../components/diagnostics/Specialities.vue";
 import AddSpecialities from "../components/diagnostics/AddSpecialities.vue";
-import Organs from "../components/diagnostics/Organs.vue";
-import AddOrgans from "../components/diagnostics/AddOrgans.vue";
+import Methadology from "../components/diagnostics/Methadology.vue";
+import AddMethadology from "../components/diagnostics/AddMethadology.vue";
 
 
 
@@ -63,16 +61,6 @@ const routes = [
         component: AddCategories
       },
       {
-        path: "/diagnostics/conditions",
-        name: "conditions",
-        component: Conditions
-      },
-      {
-        path: "/diagnostics/addconditions",
-        name: "addconditions",
-        component: AddConditions
-      },
-      {
         path: "/diagnostics/specialities",
         name: "specialities",
         component: Specialities
@@ -83,14 +71,14 @@ const routes = [
         component: AddSpecialities
       },
       {
-        path: "/diagnostics/organs",
-        name: "organs",
-        component: Organs
+        path: "/diagnostics/methadologies",
+        name: "methadologies",
+        component: Methadology
       },
       {
-        path: "/diagnostics/addorgans",
-        name: "addorgans",
-        component: AddOrgans
+        path: "/diagnostics/addmethadologies",
+        name: "addmethadologies",
+        component: AddMethadology
       },
       
 

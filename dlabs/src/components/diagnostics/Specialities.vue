@@ -1,7 +1,7 @@
 <template>
 <div class="row speciality-box-container">
   <!-- Test Tile -->
-  <div class="col-lg-2">
+  <div class="col-lg-2" v-for="speciality in specialities" :key="speciality._id">
     <div class="col-12 speciality-box">
       <!-- Checker -->
       <img
@@ -24,7 +24,7 @@
 
       <div class="row">
         <div class="col-12 test-details">
-          <h6>Brucella Vedal</h6>
+          <h6 :title="speciality.name" >{{ speciality.name.length > 14 ? `${speciality.name.substring(0,11)}...` : speciality.name  }}</h6>
         </div>
       </div>
     </div>
@@ -32,8 +32,38 @@
  </div>
 </template>
 <script>
+import axios from "axios";
+import store from "@/store";
+
+const diagnosticsApi = store.state.api.diagnostics;
+const getSpecialitiesUri = "/specialities";
+
+
 export default {
   name: "Categories",
+  data: function() {
+    return {
+      specialities: []
+    }
+  },
+  methods: {
+    async GetAllCategories() {
+      try {
+        let specialities = await axios({
+          method: "get",
+          url: diagnosticsApi + getSpecialitiesUri,
+        });
+        this.specialities = specialities.data
+      } catch (err) {
+        if (err.response.status == 400) {
+          this.validators.error = err.response.data;
+        }
+      }
+    }
+  },
+  mounted: function() {
+    this.GetAllCategories();
+  }
 };
 </script>
 <style lang="scss">

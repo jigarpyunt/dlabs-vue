@@ -30,35 +30,39 @@
           <div class="row">
             <div class="col-4">
               <label> Test Name </label>
-              <div class="data-viewer-inp">Brucella Vidal</div>
+              <div class="data-viewer-inp">
+                {{ test.name }}
+              </div>
             </div>
             <div class="col-4">
               <label> Test Unit </label>
-              <div class="data-viewer-inp">20mg/dl</div>
+              <div class="data-viewer-inp">
+                 {{ test.unit }}
+              </div>
             </div>
             <div class="col-4">
               <label> Test Reference Range </label>
-              <div class="data-viewer-inp">20-40</div>
+              <div class="data-viewer-inp">
+                 {{ test.range }}
+              </div>
             </div>
           </div>
           <div class="row">
             <div class="col-4">
               <label> Test Price </label>
-              <div class="data-viewer-inp">1000 INR</div>
+              <div class="data-viewer-inp"> {{ test.price }} INR</div>
             </div>
             <div class="col-4">
               <label> Test CODE </label>
-              <div class="data-viewer-inp">BRUC019374</div>
+              <div class="data-viewer-inp"> {{ test.code }}</div>
             </div>
           </div>
           <div class="row">
             <div class="col-12">
               <label> Pre Test Information </label>
               <div class="data-viewer-textarea">
-                Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
-                Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
-                Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem IpsumLorem
-                IpsumLorem Ipsum…
+                {{ test.preTestInformation }}
+               
               </div>
             </div>
           </div>
@@ -69,35 +73,35 @@
           <div class="row">
             <div class="col-4">
               <label> Test Speciality </label>
-              <div class="data-viewer-inp">NA</div>
+              <div class="data-viewer-inp">
+                {{ test.speciality.name }}
+              </div>
             </div>
+            
             <div class="col-4">
-              <label> Test Organ </label>
-              <div class="data-viewer-inp">Heart</div>
-            </div>
-            <div class="col-4">
-              <label> Test Condition </label>
-              <div class="data-viewer-inp">Fever</div>
+              <label> Test Methadology </label>
+              <div class="data-viewer-inp">{{ test.methadology.name }}</div>
             </div>
           </div>
           <div class="row">
             <div class="col-4">
               <label> Test Category </label>
-              <div class="data-viewer-inp">Pathelogy</div>
+              <div class="data-viewer-inp">
+                {{ test.category.name }}
+              </div>
             </div>
             <div class="col-4">
               <label> Report Availibility  </label>
-              <div class="data-viewer-inp">5 Days</div>
+              <div class="data-viewer-inp">
+                {{ test.reportAvailibilityTime }}
+              </div>
             </div>
           </div>
           <div class="row">
             <div class="col-12">
               <label> Test Description </label>
               <div class="data-viewer-textarea">
-                Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
-                Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
-                Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem IpsumLorem
-                IpsumLorem Ipsum…
+                {{ test.description }}
               </div>
             </div>
           </div>
@@ -107,6 +111,7 @@
   </div>
 </template>
 <script>
+import store from '@/store'
 export default {
   name: "ViewTest",
   components: {},
@@ -116,6 +121,7 @@ export default {
         first: true,
         second: false,
       },
+      test: store.getters.getViewTest
     };
   },
   methods: {

@@ -103,22 +103,16 @@ export default {
           redirection: "/diagnostics/categories",
         },
         {
-          id: "con",
-          name: "Conditions",
-          active: ["/diagnostics/conditions","/diagnostics/addconditions"],
-          redirection: "/diagnostics/conditions",
-        },
-        {
           id: "spe",
           name: "Specialities",
           active: ["/diagnostics/specialities","/diagnostics/addspecialities"],
           redirection: "/diagnostics/specialities",
         },
         {
-          id: "org",
-          name: "Organs",
-          active: ["/diagnostics/organs","/diagnostics/addorgans"],
-          redirection: "/diagnostics/organs",
+          id: "meth",
+          name: "Methadologies",
+          active: ["/diagnostics/methadologies","/diagnostics/addmethadologies"],
+          redirection: "/diagnostics/methadologies",
         },
       ],
     };
@@ -154,19 +148,14 @@ export default {
           path: "/diagnostics/addcategories",
         }).catch(()=>{});
       }
-      if (this.$route.path == "/diagnostics/conditions") {
+      if (this.$route.path == "/diagnostics/methadologies") {
         router.push({
-          path: "/diagnostics/addconditions",
+          path: "/diagnostics/addmethadologies",
         }).catch(()=>{});
       }
       if (this.$route.path == "/diagnostics/specialities") {
         router.push({
           path: "/diagnostics/addspecialities",
-        }).catch(()=>{});
-      }
-      if (this.$route.path == "/diagnostics/organs") {
-        router.push({
-          path: "/diagnostics/addorgans",
         }).catch(()=>{});
       }
     },

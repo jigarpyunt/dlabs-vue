@@ -16,6 +16,15 @@
           </div>
         </div>
       </div>
+      <div class="col-lg-7">
+        <div
+          class="alert alert-danger"
+          v-if="validators.error != null"
+          style="text-align: left"
+        >
+          {{ validators.error }}
+        </div>
+      </div>
       <div class="col-lg-7 form-data">
         <div class="form-row">
           <div class="col-lg-4 form-group">
@@ -24,6 +33,7 @@
               type="text"
               placeholder="Specify speciality name"
               class="form-control"
+              v-model="specialityData.name"
             />
           </div>
         </div>
@@ -37,13 +47,14 @@
               rows="10"
               class="form-control small"
               placeholder="Specify speciality description"
+              v-model="specialityData.description"
             ></textarea>
             <h6 class="textarea-count"><span class="left">0</span> / 1000</h6>
           </div>
         </div>
         <div class="form-row">
           <div class="col-lg-12 form-buttons">
-            <button class="save">Save</button>
+            <button class="save" @click="SaveSpeciality">Save</button>
           </div>
         </div>
       </div>
@@ -51,13 +62,52 @@
   </div>
 </template>
 <script>
+import axios from "axios";
+import store from "@/store";
+import router from "@/router";
+import swal from 'sweetalert2';
+
+
+const diagnosticsApi = store.state.api.diagnostics;
+const saveSpecialityUri = "/specialities";
+
 export default {
   name: "AddCategories",
   components: {},
   data: function () {
-    return {};
+    return {
+      specialityData: {
+        name: "",
+        description: "",
+      },
+      validators: {
+        error: null,
+      },
+    };
   },
-  methods: {},
+  methods: {
+    async SaveSpeciality() {
+      try {
+        let response = await axios({
+          method: "post",
+          url: diagnosticsApi + saveSpecialityUri,
+          data: this.specialityData,
+        });
+        if( response.status == 200 ) {
+            swal.fire({
+              title: 'Success',
+              text: 'Speciality Saved Successfully',
+              icon: 'success'
+            });
+            router.push('/diagnostics/specialities');
+        }
+      } catch (err) {
+        if (err.response.status == 400) {
+          this.validators.error = err.response.data;
+        }
+      }
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>

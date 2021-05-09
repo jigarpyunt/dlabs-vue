@@ -16,8 +16,12 @@
     </div>
     <div class="row">
       <div class="col-lg-7">
-        <div class="alert alert-danger" v-if="validators.error != null" style="text-align: left">
-            {{ validators.error }}
+        <div
+          class="alert alert-danger"
+          v-if="validators.error != null"
+          style="text-align: left"
+        >
+          {{ validators.error }}
         </div>
       </div>
     </div>
@@ -71,13 +75,16 @@
               v-model="testData.codePrefix"
               @keyup="GenerateCodeWithPrefix"
               @keypress="ValidateCodePrefix($event)"
-
             />
           </div>
           <div class="col-lg-4 form-group">
             <label for="">Test Code</label>
             <span class="testcode-gen">
-              {{ testData.codePrefix !=null ? testData.codePrefix + testData.code : testData.code  }}
+              {{
+                testData.codePrefix != null
+                  ? testData.codePrefix + testData.code
+                  : testData.code
+              }}
               <!-- Getting Generated Dynamically -->
             </span>
           </div>
@@ -119,46 +126,105 @@
         <div class="form-row">
           <div class="col-lg-4 form-group">
             <label for="">Test Speciality</label>
-            <input list="specialities" type="text" placeholder="Liver" class="form-control" v-model="testData.speciality"/>
-            <datalist id="specialities">
-                <template v-for="speciality in specialities">
-                  <option :value="speciality.name" :key="speciality._id" />
-                </template>
-            </datalist>
+            <input
+              list="specialities"
+              type="text"
+              readonly
+              placeholder="Pick one"
+              class="form-control"
+              v-model="testData.speciality.name"
+              @click="ShowDropdown('speciality')"
+              @mouseleave.native="CloseDropdown('speciality')"
+            />
+            <DropdownContainer v-if="dropdownStates.speciality" @mouseleave.native="CloseDropdown('speciality')">
+              <template v-slot:dd-search>
+                <input type="text" placeholder="Type here to search" />
+              </template>
+              <template v-slot:dd-list>
+                <li v-for="speciality in specialities" :key="speciality._id" @click="SetSpeciality(speciality.name, speciality._id)">
+                  {{ speciality.name }}
+                </li>
+              </template>
+            </DropdownContainer>
           </div>
           <div class="col-lg-4 form-group">
-            <label for="">Test Organ</label>
-            <input type="text" placeholder="Heart" class="form-control" v-model="testData.organ"/>
+            <label for="">Test Methodology</label>
+            <input
+              type="text"
+              placeholder="Pick one"
+              readonly
+              class="form-control"
+              v-model="testData.methadology.name"
+              @click="ShowDropdown('methadology')"
+
+            />
+            <DropdownContainer v-if="dropdownStates.methadology" @mouseleave.native="CloseDropdown('methadology')">
+              <template v-slot:dd-search>
+                <input type="text" placeholder="Type here to search" />
+              </template>
+              <template v-slot:dd-list>
+                 <li v-for="methadology in methadologies" :key="methadology._id" @click="SetMethadology(methadology.name, methadology._id)">
+                  {{ methadology.name }}
+                </li>
+                <li>By Calculation</li>
+              </template>
+            </DropdownContainer>
           </div>
           <div class="col-lg-4 form-group">
-            <label for="">Test Condition</label>
-            <input list="conditions" type="text" placeholder="Fever" class="form-control" v-model="testData.condition" />
-            <datalist id="conditions">
-                <template v-for="condition in conditions">
-                  <option :value="condition.name" :key="condition._id" />
-                </template>
-            </datalist>
+            <label for="">Test Category</label>
+            <input
+              list="categories"
+              type="text"
+              readonly
+              placeholder="Pick one"
+              class="form-control"
+              v-model="testData.category.name"
+              @click="ShowDropdown('category')"
+
+            />
+            <DropdownContainer v-if="dropdownStates.category" @mouseleave.native="CloseDropdown('category')">
+              <template v-slot:dd-search>
+                <input type="text" placeholder="Type here to search" />
+              </template>
+              <template v-slot:dd-list>
+                <li v-for="category in categories" :key="category._id" @click="SetCategory(category.name, category._id)">
+                  {{ category.name }}
+                </li>
+              </template>
+            </DropdownContainer>
+            
           </div>
         </div>
         <div class="form-row">
           <div class="col-lg-4 form-group">
-            <label for="">Test Category</label>
-            <input list="categories" type="text" placeholder="Hametology" class="form-control" v-model="testData.category"/>
-            <datalist id="categories">
-                <template v-for="category in categories">
-                  <option :value="category.name" :key="category._id" />
-                </template>
-            </datalist>
-          </div>
-          <div class="col-lg-4 form-group">
             <label for="">Report Availibility Time</label>
-            <input list="availibilites" type="text" placeholder="2 days" class="form-control" v-model="testData.reportAvalibilityTime"/>
-             <datalist id="availibilites">
-                <option value="One Day" />
-                <option value="Within 2 Days" />
-                <option value="Less than 5 days" />
-                <option value="Greater than 5 days" />
-            </datalist>
+            <input
+              list="availibilites"
+              type="text"
+              readonly
+              placeholder="2 days"
+              class="form-control"
+              v-model="testData.reportAvalibilityTime"
+              @click="ShowDropdown('reportAvailibility')"
+
+            />
+             <DropdownContainer v-if="dropdownStates.reportAvailibility" @mouseleave.native="CloseDropdown('reportAvailibility')">
+              
+              <template v-slot:dd-list>
+                <li  @click="SetReportAvailibility('One Day')">
+                 One Day
+                </li>
+                <li  @click="SetReportAvailibility('Within 2 Days')">
+                 Within 2 Days
+                </li>
+                <li  @click="SetReportAvailibility('Less than 5 days')">
+                 Less than 5 days
+                </li>
+                <li  @click="SetReportAvailibility('Greater than 5 days')">
+                 Greater than 5 days
+                </li>
+              </template>
+            </DropdownContainer>
           </div>
         </div>
         <div class="form-row">
@@ -171,12 +237,12 @@
               rows="10"
               class="form-control"
               placeholder="Specify pre test description"
-              v-model="testData.testDescription"
+              v-model="testData.description"
             ></textarea>
             <h6 class="textarea-count">
               <span class="left">{{
-                testData.testDescription != null
-                  ? testData.testDescription.length
+                testData.description != null
+                  ? testData.description.length
                   : "0"
               }}</span>
               / 1000
@@ -198,28 +264,39 @@
 <script>
 import axios from "axios";
 import store from "@/store";
+import router from "@/router";
+import swal from 'sweetalert2';
 
 const diagnosticsApi = store.state.api.diagnostics;
-const saveTestUri = '/tests';
-const getSpecialitiesUri = '/specialities'
-const getConditionsUri = '/conditions'
-const getOrgansUri = '/organs'
-const getCategoriesUri = '/categories'
+const saveTestUri = "/tests";
+const getSpecialitiesUri = "/specialities";
+const getMethadologiesUri = "/methadologies";
+const getCategoriesUri = "/categories";
 
+import DropdownContainer from "@/components/global/DropdownContainer";
 
 export default {
   name: "AddTests",
-  components: {},
+  components: {
+    DropdownContainer,
+  },
   data: function () {
     return {
       activePills: {
         first: true,
         second: false,
       },
+      dropdownStates: {
+        speciality: false,
+        methadology: false,
+        condition: false,
+        category: false,
+        reportAvalibility: false
+      },
       specialities: null,
       categories: null,
-      conditions: null,
-      organs: null,      
+      methadologies: null,
+      organs: null,
       testData: {
         name: "",
         unit: "",
@@ -228,17 +305,25 @@ export default {
         codePrefix: "",
         code: this.GenerateCodeWithoutPrefix(),
         preTestInformation: "",
-        speciality: "",
-        organ: "",
-        condition: "",
-        category: "",
+        speciality: {
+          name: "",
+          id: ""
+        },
+        methadology: {
+          name: "",
+          id: ""
+        },
+        category: {
+          name: "",
+          id: ""
+        },
         reportAvalibilityTime: "",
-        description: ""
+        description: "",
       },
       validators: {
-        error: null
-      }
-    };  
+        error: null,
+      },
+    };
   },
   methods: {
     ChangePill: function (pill) {
@@ -248,90 +333,129 @@ export default {
       };
       this.activePills[pill] = true;
     },
-    ValidateTextarea: function(event, textarea) {
-        if( this.testData[textarea].length > 20 ) {
-            event.preventDefault();
-        }
+    ShowDropdown: function( dropdown ) {
+        this.dropdownStates =  {
+          speciality: false,
+          methadology: false,
+          condition: false,
+          category: false
+        };
+        this.dropdownStates[dropdown] = true;
+    },
+    CloseDropdown: function( dropdown ) {
+      this.dropdownStates =  {
+          speciality: false,
+          methadology: false,
+          condition: false,
+          category: false
+        };
+      this.dropdownStates[dropdown] = false;
+    },
+    ValidateTextarea: function (event, textarea) {
+      if (this.testData[textarea].length > 20) {
+        event.preventDefault();
+      }
     },
     GenerateCodeWithoutPrefix() {
       let dateObj = new Date();
-      let code = `${(dateObj.getMonth() + 1)}${dateObj.getDay()}${dateObj.getSeconds()}${dateObj.getMilliseconds()}`;
+      let code = `${
+        dateObj.getMonth() + 1
+      }${dateObj.getDay()}${dateObj.getSeconds()}${dateObj.getMilliseconds()}`;
       return code;
     },
     GenerateCodeWithPrefix() {
-       this.testData.codePrefix = this.testData.codePrefix.toUpperCase();
+      this.testData.codePrefix = this.testData.codePrefix.toUpperCase();
     },
-    ValidateCodePrefix (event) {
-        if( this.testData.codePrefix.length == 4 ) {
-          event.preventDefault();
-        } 
+    ValidateCodePrefix(event) {
+      if (this.testData.codePrefix.length == 4) {
+        event.preventDefault();
+      }
     },
     async GetSpecialites() {
       try {
-       let specialities = await axios({
-          method: 'get',
-          url: diagnosticsApi + getSpecialitiesUri
+        let specialities = await axios({
+          method: "get",
+          url: diagnosticsApi + getSpecialitiesUri,
         });
         this.specialities = specialities.data;
-      } catch( err ) {
+      } catch (err) {
         console.log(err.response);
       }
     },
-    async GetOrgans() {
+    async GetMethadologies() {
       try {
-       let organs = await axios({
-          method: 'get',
-          url: diagnosticsApi + getOrgansUri
+        let methadologies = await axios({
+          method: "get",
+          url: diagnosticsApi + getMethadologiesUri,
         });
-        this.organs = organs.data;
-      } catch( err ) {
-        console.log(err.response);
-      }
-    },
-    async GetConditions() {
-      try {
-       let conditions = await axios({
-          method: 'get',
-          url: diagnosticsApi + getConditionsUri
-        });
-        this.conditions = conditions.data;
-      } catch( err ) {
+        this.methadologies = methadologies.data;
+      } catch (err) {
         console.log(err.response);
       }
     },
     async GetCategories() {
       try {
-       let categories = await axios({
-          method: 'get',
-          url: diagnosticsApi + getCategoriesUri
+        let categories = await axios({
+          method: "get",
+          url: diagnosticsApi + getCategoriesUri,
         });
         this.categories = categories.data;
-      } catch( err ) {
+      } catch (err) {
         console.log(err.response);
       }
+    },
+    SetSpeciality( speciality, id ) {
+      this.testData.speciality = {
+        name: speciality,
+        id: id
+      }
+      this.CloseDropdown('speciality')
+    },
+    SetMethadology( methadology, id ) {
+      this.testData.methadology= {
+        name: methadology,
+        id: id
+      }
+      this.CloseDropdown('methadology')
+    },
+    SetCategory( category, id ) {
+      this.testData.category = {
+        name: category,
+        id: id
+      }
+      this.CloseDropdown('category')
+    },
+    SetReportAvailibility( reportAvailibility ) {
+      this.testData.reportAvalibilityTime = reportAvailibility
+      this.CloseDropdown('speciality')
     },
     async SaveTest() {
       try {
         let response = await axios({
-            method: 'post',
-            url: diagnosticsApi + saveTestUri,
-            data: this.testData
+          method: "post",
+          url: diagnosticsApi + saveTestUri,
+          data: this.testData,
         });
-        console.log(response);
-      } catch( err ) {
-       if( err.response.status == 400 ) {
-           this.validators.error  = err.response.data;
+        if( response.status == 200 ) {
+            swal.fire({
+              title: 'Success',
+              text: 'Test Saved Successfully',
+              icon: 'success'
+            });
+            router.push('/diagnostics/tests');
+        }
+      } catch (err) {
+        if (err.response.status == 400) {
+          this.validators.error = err.response.data;
         }
       }
-      
-    }
+    },
   },
-  mounted: async function() {
+  mounted: async function () {
     await this.GetSpecialites();
-    // GetOrgans();
-    await this.GetConditions();
+    await this.GetMethadologies();
     await this.GetCategories();
-  }
+  },
 };
 </script>
 <style lang="scss" scoped>

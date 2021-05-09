@@ -9,41 +9,51 @@
           </div>
           <div class="col-12 body">
             <p>
-              Conditions are used to define the patient which test comes under
-              which condition to present the information about the test like
-              <b>Allergy, Infertility</b> etc
+              Methadologies are used to define by which methodology test is being undertaken
+              <b>Oxidase, Calculations</b> etc
             </p>
           </div>
+        </div>
+      </div>
+       <div class="col-lg-7">
+        <div
+          class="alert alert-danger"
+          v-if="validators.error != null"
+          style="text-align: left"
+        >
+          {{ validators.error }}
         </div>
       </div>
       <div class="col-lg-7 form-data">
         <div class="form-row">
           <div class="col-lg-4 form-group">
-            <label for="">Condition Name</label>
+            <label for="">Methadology Name</label>
             <input
               type="text"
-              placeholder="Specify category name"
+              placeholder="Specify Methadology name"
               class="form-control"
+              v-model="methadologyData.name"
             />
           </div>
         </div>
         <div class="form-row">
           <div class="col-lg-9 form-group">
-            <label for="">Condition Description</label>
+            <label for="">Methadology Description</label>
             <textarea
               name=""
               id=""
               cols="20"
               rows="10"
               class="form-control small"
-              placeholder="Specify condition description"
+              placeholder="Specify Methadology description"
+              v-model="methadologyData.description"
             ></textarea>
             <h6 class="textarea-count"><span class="left">0</span> / 1000</h6>
           </div>
         </div>
         <div class="form-row">
           <div class="col-lg-12 form-buttons">
-            <button class="save">Save</button>
+            <button class="save" @click="SaveMethadology">Save</button>
           </div>
         </div>
       </div>
@@ -51,13 +61,51 @@
   </div>
 </template>
 <script>
+import axios from "axios";
+import store from "@/store";
+import router from "@/router";
+import swal from "sweetalert2";
+
+const diagnosticsApi = store.state.api.diagnostics;
+const saveMethadologyUri = "/methadologies";
+
 export default {
   name: "AddCategories",
   components: {},
   data: function () {
-    return {};
+    return {
+       methadologyData: {
+        name: "",
+        description: "",
+      },
+      validators: {
+        error: null,
+      },
+    };
   },
-  methods: {},
+  methods: {
+    async SaveMethadology() {
+      try {
+        let response = await axios({
+          method: "post",
+          url: diagnosticsApi + saveMethadologyUri,
+          data: this.methadologyData,
+        });
+        if( response.status == 200 ) {
+           swal.fire({
+              title: 'Success',
+              text: 'Methadology Saved Successfully',
+              icon: 'success'
+            });
+            router.push('/diagnostics/methadologies');
+        }
+      } catch (err) {
+        if (err.response.status == 400) {
+          this.validators.error = err.response.data;
+        }
+      }
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>
@@ -117,6 +165,7 @@ export default {
   input[type="text"]:focus {
     border-bottom: 2px solid #20a6ed;
   }
+
   .textarea-count {
     position: absolute;
     right: 50px;
@@ -135,6 +184,7 @@ export default {
     padding-top: 20px;
     resize: none;
   }
+
   textarea.small {
     height: 152px;
   }
