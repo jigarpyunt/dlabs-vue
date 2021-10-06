@@ -12,6 +12,7 @@ import Specialities from "../components/diagnostics/Specialities.vue";
 import AddSpecialities from "../components/diagnostics/AddSpecialities.vue";
 import Methadology from "../components/diagnostics/Methadology.vue";
 import AddMethadology from "../components/diagnostics/AddMethadology.vue";
+import LabRegistration from "../components/global/LabRegistration.vue";
 
 
 
@@ -24,6 +25,11 @@ const routes = [
     path: "/dashboard",
     name: "dashboard",
     component: Dashboard
+  },
+  {
+    path: "/labregistration",
+    name: "labregistration",
+    component: LabRegistration,
   },
   {
     path: "/diagnostics",
