@@ -7,8 +7,8 @@
           <div class="step-counter step2"></div>
           <div class="step-counter step3"></div>
         </div>
-         <div class="col-lg-12 error" v-if="serverResponse != null">
-               {{ serverResponse }}
+         <div class="col-lg-12 error" v-if="msg.errorMsg">
+               {{ msg.errorMsgText }}
          </div>
         <div class="col-lg-12 mobile-registration">
           <form action="">
@@ -35,13 +35,16 @@
           <div class="step-counter active step2"></div>
           <div class="step-counter step3"></div>
         </div>
-          <div class="col-lg-12 msg" v-if="responseMsg">
+          <div class="col-lg-12 msg" v-if="msg.successMsg">
                 OTP has been successfully sent to <span>9149******54</span>
                 <h1 v-if="temporaryOTP != null">Your OTP is {{ temporaryOTP }}</h1>
           </div>
-          <div class="col-lg-12 msg" v-if="serverMsg">
-              {{ serverMsgText }}
+          <div class="col-lg-12 msg" v-if="msg.infoMsg">
+              {{ msg.infoMsgText }}
           </div>
+           <div class="col-lg-12 error" v-if="msg.errorMsg">
+            {{ msg.errorMsgText }}
+        </div>
         <div class="col-lg-12 mobile-registration">
           <form action="">
             <div class="row">
@@ -66,33 +69,36 @@
           <div class="step-counter active step2"></div>
           <div class="step-counter active step3"></div>
         </div>
-        <div class="col-lg-12 msg" v-if="serverMsg">
-            {{ serverMsgText }}
+        <div class="col-lg-12 msg" v-if="msg.successMsg">
+            {{ msg.successMsgText }}
+        </div>
+        <div class="col-lg-12 msg" v-if="msg.infoMsg">
+            {{ msg.infoMsgText }}
+        </div>
+         <div class="col-lg-12 error" v-if="msg.errorMsg">
+            {{ msg.errorMsgText }}
         </div>
         <div class="col-lg-12 mobile-registration">
           <form action="">
             <div class="row">
               <div class="col-12 form-group reg-inputcontrols">
                 <label for="">Lab Name</label>
-                <input type="text" placeholder="Enter lab name" class="form-control" />
+                <input type="text" placeholder="Enter lab name" class="form-control" v-model="step3Data.labName" />
               </div>
               <div class="col-12 form-group reg-inputcontrols">
                 <label for="">Lab Address</label>
-                <textarea type="text" placeholder="Enter lab address" class="form-control labaddress"></textarea>
+                <textarea type="text" placeholder="Enter lab address" class="form-control labaddress" v-model="step3Data.labAddress"></textarea>
               </div>
               <div class="col-12 form-group reg-inputcontrols">
                 <label for="">Lab Tel</label>
-                <input type="text" placeholder="Enter lab telephone" class="form-control" />
+                <input type="text" placeholder="Enter lab telephone" class="form-control" v-model="step3Data.labTel"/>
               </div>
               <div class="col-12 form-group reg-inputcontrols">
                 <label for="">Lab Email</label>
-                <input type="text" placeholder="Enter lab email" class="form-control" />
-              </div>
-              <div class="col-12 form-group otp-not-sent" v-if="false">
-                OTP not sent ? <a href="">Resent OTP</a>
+                <input type="text" placeholder="Enter lab email" class="form-control" v-model="step3Data.labEmail"/>
               </div>
               <div class="col-12 form-group reg-inputcontrols">
-                <button type="button" class="form-control reg-btn">Save & Next</button>
+                <button type="button" class="form-control reg-btn" @click="SaveStepThird">Save & Next</button>
               </div>
             </div>
           </form>
@@ -103,21 +109,28 @@
 <script>
 import axios from 'axios';
 import store from '@/store';
+import router from '@/router';
+import Swal from 'sweetalert2';
 
 const registrationApi = store.state.api.registrations;
-const saveStep1Uri = '/labregistration';
+const saveStepUri = '/labregistration';
 
 export default {
   name: "Step1",
   data: function () {
     return {
+      swal: false,
       stepCounter: 1,
       temporaryOTP: null,
       serverResponse: null,
-      responseMsg: false,
-      responseMsgText: '',
-      serverMsg: false,
-      serverMsgText: '',
+      msg: {
+        infoMsg: false,
+        infoMsgText: '',
+        errorMsg: false,
+        errorMsgText: '',
+        successMsg: false,
+        successMsgText: ''
+      },
       step1Data: {
         mobile: '',
         password: '',
@@ -134,42 +147,128 @@ export default {
     }
   },
   methods:  {
+    showSweetAlert: async function( title, text, icon, showCancelButton, confirmButtonText) {
+      return await Swal.fire({
+        title: title,
+        text: text,
+        icon: icon,
+        showCancelButton: showCancelButton,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: confirmButtonText
+      });
+    },
+    showSpinnerLoader: async function() {
+      return await Swal.fire({
+        title: 'Please Wait',
+        timerProgressBar: true,
+        didOpen: () => {
+          Swal.showLoading()
+        }
+      });
+    },
     SaveStepFirst: async function() {
       try {
-        let response = await axios({
+      this.showSpinnerLoader();
+      let response = await axios({
           method: "post",
-          url: registrationApi + saveStep1Uri,
+          url: registrationApi + saveStepUri,
           data: this.step1Data,
           params: {
             step: 1
           }
         });
         if ( response.status == 200 ){
+          Swal.close();
           this.temporaryOTP = response.data;
-          this.responseMsg = true;
+          this.msg.infoMsg = false;
+          this.msg.errorMsg = false;
+          this.msg.successMsg = true;
           this.stepCounter = 2;
+
         }
       } catch(e) {
         // console.log(e.response.data);
-        this.serverResponse = e.response.data['msg'];
+
+        // Closing Alert
+        Swal.close();
+
+        // Assigning general msg  
+        this.msg.errorMsg = true;
+        this.msg.errorMsgText = e.response.data['msg'];
+
+        // Assigning specific msg
         if(e.response.data['error'] == true && e.response.data['stepsCompleted'] == 1) {
           this.stepCounter = 2;
-          this.serverMsg = true;
-          this.serverMsgText = e.response.data['msg'];
+          this.msg.successMsg = false;
+          this.msg.errorMsg = false;
+          this.msg.infoMsg = true;
+          this.msg.infoMsgText = e.response.data['msg'];
         }
         if(e.response.data['error'] == true && e.response.data['stepsCompleted'] == 2) {
           this.stepCounter = 3;
-           this.serverMsg = true;
-          this.serverMsgText = e.response.data['msg'];
+          this.msg.successMsg = false;
+          this.msg.errorMsg = false;
+          this.msg.infoMsg = true;
+          this.msg.infoMsgText = e.response.data['msg'];
         }
       }
     },
-    SaveStepSecond: function() {
-
-        this.stepCounter = 3;
+    SaveStepSecond: async function() {
+      try {
+       this.showSpinnerLoader();
+        let response =  await axios({
+            method:'post',
+            url: registrationApi + saveStepUri,
+            data: this.step2Data,
+            params: {
+              step: 2,
+              mobile: this.step1Data.mobile
+            }
+        });
+         if ( response.status == 200 ){
+          Swal.close();
+          this.msg.infoMsg = false;
+          this.msg.errorMsg = false;
+          this.msg.successMsg = true;
+          this.stepCounter = 3;
+        }
+      } catch(e) {
+        Swal.close();
+        this.msg.infoMsg = false;
+        this.msg.successMsg = false;
+        this.msg.errorMsg = true; 
+        this.msg.errorMsgText = e.response.data['msg'];
+      }
     },
-    SaveStepThird: function() {
-        this.stepCounter = 3;
+    SaveStepThird: async function() {
+      try {
+        this.showSpinnerLoader();
+        let response =  await axios({
+            method:'post',
+            url: registrationApi + saveStepUri,
+            data: this.step3Data,
+            params: {
+              step: 3,
+              mobile: this.step1Data.mobile
+            }
+        });
+         if ( response.status == 200 ){
+          Swal.close();
+          this.msg.infoMsg = false;
+          this.msg.errorMsg = false;
+          this.responseMsg = true;
+          this.responseText = response.data;
+          this.showSweetAlert('Success','Your data has been stored','success', false, 'Ok');
+          router.push({ path: '/dashboard', }).catch(() => {});
+        }
+      } catch (e) {
+        Swal.close();
+        this.msg.infoMsg = false;
+        this.msg.successMsg = false;
+        this.msg.errorMsg = true; 
+        this.msg.errorMsgText = e.response.data['msg'];
+      }
     }
   }
 };
