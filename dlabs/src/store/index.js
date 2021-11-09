@@ -18,7 +18,8 @@ export default new Vuex.Store({
         }
     },
     api: {
-      diagnostics: 'http://localhost:3000/api/diagnostics'
+      diagnostics: 'http://localhost:3000/api/diagnostics',
+      registrations: 'http://localhost:3000/api/registrations'
     }
   },
   getters: {

@@ -7,17 +7,19 @@
           <div class="step-counter step2"></div>
           <div class="step-counter step3"></div>
         </div>
-
+         <div class="col-lg-12 error" v-if="serverResponse != null">
+               {{ serverResponse }}
+         </div>
         <div class="col-lg-12 mobile-registration">
           <form action="">
             <div class="row">
               <div class="col-12 form-group reg-inputcontrols">
                 <label for="">Mobile</label>
-                <input type="text" placeholder="Enter mobile number" class="form-control" />
+                <input type="text" placeholder="Enter mobile number" class="form-control" v-model="step1Data.mobile"/>
               </div>
               <div class="col-12 form-group reg-inputcontrols">
                 <label for="">Password</label>
-                <input type="password" placeholder="Enter email" class="form-control" />
+                <input type="password" placeholder="Enter password" class="form-control" v-model="step1Data.password"/>
               </div>
               <div class="col-12 form-group reg-inputcontrols">
                 <button type="button" class="form-control reg-btn" @click="SaveStepFirst">Save & Next</button>
@@ -33,15 +35,19 @@
           <div class="step-counter active step2"></div>
           <div class="step-counter step3"></div>
         </div>
-          <div class="col-lg-12 msg">
+          <div class="col-lg-12 msg" v-if="responseMsg">
                 OTP has been successfully sent to <span>9149******54</span>
+                <h1 v-if="temporaryOTP != null">Your OTP is {{ temporaryOTP }}</h1>
+          </div>
+          <div class="col-lg-12 msg" v-if="serverMsg">
+              {{ serverMsgText }}
           </div>
         <div class="col-lg-12 mobile-registration">
           <form action="">
             <div class="row">
               <div class="col-12 form-group reg-inputcontrols">
                 <label for="">Verify OTP</label>
-                <input type="text" placeholder="Enter OTP" class="form-control" />
+                <input type="text" placeholder="Enter OTP" class="form-control" v-model="step2Data.otp"/>
               </div>
               <div class="col-12 form-group otp-not-sent">
                 OTP not sent ? <a href="">Resent OTP</a>
@@ -60,8 +66,8 @@
           <div class="step-counter active step2"></div>
           <div class="step-counter active step3"></div>
         </div>
-        <div class="col-lg-12 msg" v-if="false">
-            OTP has been successfully sent to <span>9149******54</span>
+        <div class="col-lg-12 msg" v-if="serverMsg">
+            {{ serverMsgText }}
         </div>
         <div class="col-lg-12 mobile-registration">
           <form action="">
@@ -95,18 +101,71 @@
     </div>
 </template>
 <script>
+import axios from 'axios';
+import store from '@/store';
+
+const registrationApi = store.state.api.registrations;
+const saveStep1Uri = '/labregistration';
+
 export default {
   name: "Step1",
   data: function () {
     return {
       stepCounter: 1,
+      temporaryOTP: null,
+      serverResponse: null,
+      responseMsg: false,
+      responseMsgText: '',
+      serverMsg: false,
+      serverMsgText: '',
+      step1Data: {
+        mobile: '',
+        password: '',
+      },
+      step2Data: {
+        otp: '',
+      },
+      step3Data: {
+        labName: '',
+        labAddress: '',
+        labTel: '',
+        labEmail: ''
+      }
     }
   },
   methods:  {
-    SaveStepFirst: function() {
-        this.stepCounter = 2;
+    SaveStepFirst: async function() {
+      try {
+        let response = await axios({
+          method: "post",
+          url: registrationApi + saveStep1Uri,
+          data: this.step1Data,
+          params: {
+            step: 1
+          }
+        });
+        if ( response.status == 200 ){
+          this.temporaryOTP = response.data;
+          this.responseMsg = true;
+          this.stepCounter = 2;
+        }
+      } catch(e) {
+        // console.log(e.response.data);
+        this.serverResponse = e.response.data['msg'];
+        if(e.response.data['error'] == true && e.response.data['stepsCompleted'] == 1) {
+          this.stepCounter = 2;
+          this.serverMsg = true;
+          this.serverMsgText = e.response.data['msg'];
+        }
+        if(e.response.data['error'] == true && e.response.data['stepsCompleted'] == 2) {
+          this.stepCounter = 3;
+           this.serverMsg = true;
+          this.serverMsgText = e.response.data['msg'];
+        }
+      }
     },
     SaveStepSecond: function() {
+
         this.stepCounter = 3;
     },
     SaveStepThird: function() {
@@ -126,7 +185,13 @@ export default {
   margin-top: 75px;
   letter-spacing: 1.5px;
 }
+.error {
+  @include apply-font($roboto, $medium, 16px, #951717);
+  margin-top: 50px;
+  letter-spacing: 1.5px;
+}
 .step-details {
+  margin-top: 50px;
   h6 {
     @include apply-font($roboto, $bold, 18px, #707070);
   }
